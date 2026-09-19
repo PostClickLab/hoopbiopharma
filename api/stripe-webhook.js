@@ -19,6 +19,10 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SER
 
 // Vercel auto-parses JSON bodies by default, which would corrupt the exact
 // byte stream Stripe's signature covers — this endpoint needs the raw body.
+// Confirmed working on real Vercel deploys (2026-09-19), but `vercel dev`'s
+// local emulator ignores this and hands back an already-parsed req.body
+// with an empty stream — test signature verification against a real
+// deployment, not `vercel dev`, if this ever needs debugging again.
 export const config = { api: { bodyParser: false } };
 
 async function buffer(readable) {
@@ -42,7 +46,6 @@ export default async function handler(req, res) {
   let event;
   try {
     const rawBody = await buffer(req);
-    console.log("DEBUG rawBody length:", rawBody.length, "typeof req.body:", typeof req.body, "isBuffer:", Buffer.isBuffer(req.body));
     event = stripe.webhooks.constructEvent(rawBody, req.headers["stripe-signature"], webhookSecret);
   } catch (err) {
     console.error("stripe-webhook signature verification failed:", err.message);
