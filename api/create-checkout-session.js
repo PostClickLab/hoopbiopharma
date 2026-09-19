@@ -17,7 +17,14 @@ loadEnv({ path: path.join(path.dirname(fileURLToPath(import.meta.url)), "../.env
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-const priceIdsPath = path.join(path.dirname(fileURLToPath(import.meta.url)), "../src/data/stripePriceIds.json");
+// Test and live mode are separate Stripe environments with different object
+// IDs, so there are two mapping files — pick whichever matches the active
+// key (see scripts/stripe-sync.mjs for how each one gets generated).
+const isLive = /_live_/.test(process.env.STRIPE_SECRET_KEY || "");
+const priceIdsPath = path.join(
+  path.dirname(fileURLToPath(import.meta.url)),
+  `../src/data/stripePriceIds${isLive ? ".live" : ""}.json`
+);
 let stripePriceIds = {};
 try {
   stripePriceIds = JSON.parse(readFileSync(priceIdsPath, "utf8"));

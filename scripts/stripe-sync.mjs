@@ -1,8 +1,15 @@
 // Syncs every SKU in src/data/products.js to Stripe as a Product + retail
 // Price (+ a monthly recurring Price for "subscribe & save"), and writes
-// the resulting price IDs to src/data/stripePriceIds.json — committed to
-// git — so the checkout API can build line items without trusting client
-// prices and without needing Stripe access at request time.
+// the resulting price IDs to src/data/stripePriceIds.json (test mode) or
+// src/data/stripePriceIds.live.json (live mode), picked automatically from
+// which kind of key is active — committed to git so the checkout API can
+// build line items without trusting client prices and without needing
+// Stripe access at request time. Test and live mode are entirely separate
+// Stripe environments with different object IDs, hence two files: whichever
+// one api/create-checkout-session.js loads is picked the same way, by the
+// live/test-ness of whatever STRIPE_SECRET_KEY is active in that Vercel
+// environment (Preview/Development stay on a test key; Production gets the
+// live key) — see isLiveKey() below.
 //
 // Run this manually whenever src/data/products.js, promoCodes.js, or
 // shipping.js change, then commit the updated stripePriceIds.json:
@@ -40,6 +47,8 @@ if (!process.env.STRIPE_SECRET_KEY) {
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const SITE_ORIGIN = process.env.SITE_ORIGIN || "https://hoopbiopharma.com";
+const isLive = /_live_/.test(process.env.STRIPE_SECRET_KEY);
+console.log(`Syncing in ${isLive ? "LIVE" : "test"} mode\n`);
 
 const { PRODUCTS } = await import(pathToFileURL(path.join(ROOT, "src/data/products.js")));
 const { PROMO_CODES } = await import(pathToFileURL(path.join(ROOT, "src/data/promoCodes.js")));
@@ -180,7 +189,7 @@ for (const [key, info] of Object.entries(SHIP_METHODS)) {
   console.log(`unchanged shipping/${key.padEnd(18)} ${info.label}`);
 }
 
-const outPath = path.join(ROOT, "src/data/stripePriceIds.json");
+const outPath = path.join(ROOT, `src/data/stripePriceIds${isLive ? ".live" : ""}.json`);
 writeFileSync(outPath, JSON.stringify(out, null, 2) + "\n");
 console.log(`\nWrote ${Object.keys(out).length - 1} price mappings + shipping to ${path.relative(ROOT, outPath)}`);
 
