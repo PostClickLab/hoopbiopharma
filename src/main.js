@@ -68,12 +68,6 @@ function tierPrice(itemOrBase) {
   }
   return money(itemOrBase * currentTier().multiplier);
 }
-function tierSubscribePrice(itemOrBase) {
-  return money(tierPrice(itemOrBase) * 0.95);
-}
-function unitPrice(product, subscribed) {
-  return subscribed ? tierSubscribePrice(product) : tierPrice(product);
-}
 function tierMOQ() {
   return currentTier().moq;
 }
@@ -90,10 +84,10 @@ try {
 function persistCart() {
   try { localStorage.setItem("hbp_cart", JSON.stringify(cart)); } catch (e) {}
 }
-function addToCart(id, subscribed) {
-  const line = cart.find((l) => l.id === id && l.subscribed === subscribed);
+function addToCart(id) {
+  const line = cart.find((l) => l.id === id);
   if (line) line.qty++;
-  else cart.push({ id, qty: Math.max(1, tierMOQ()), subscribed: !!subscribed });
+  else cart.push({ id, qty: Math.max(1, tierMOQ()) });
   persistCart();
   renderCartCount();
   renderCartDrawer();
@@ -121,7 +115,7 @@ function cartSubtotal() {
   return cart.reduce((s, l) => {
     const p = byId[l.id];
     if (!p) return s;
-    return s + unitPrice(p, l.subscribed) * l.qty;
+    return s + tierPrice(p) * l.qty;
   }, 0);
 }
 
@@ -150,13 +144,13 @@ function renderCartDrawer() {
     .map((l, idx) => {
       const p = byId[l.id];
       if (!p) return "";
-      const unit = unitPrice(p, l.subscribed);
+      const unit = tierPrice(p);
       const moq = tierMOQ();
       return `<div class="cart-row">
         <div class="thumb"><img src="${p.image}" alt="${esc(p.name)}" loading="lazy"></div>
         <div style="flex:1;min-width:0;">
           <div class="name">${esc(p.name)}</div>
-          <div class="meta">${esc(p.concentration)}${l.subscribed ? " · subscribe" : ""}${moq > 1 ? ` · min. order ${moq}` : ""}</div>
+          <div class="meta">${esc(p.concentration)}${moq > 1 ? ` · min. order ${moq}` : ""}</div>
           <div class="qty-row">
             <button class="qty-btn" data-qtyminus="${idx}" aria-label="Decrease quantity"${l.qty <= moq ? " disabled" : ""}>−</button>
             <input type="number" class="qty-input mono" data-qtyinput="${idx}" value="${l.qty}" min="${moq}" step="1" aria-label="Quantity">
@@ -196,22 +190,15 @@ function titleCase(s) {
   return String(s).replace(/\w\S*/g, (w) => w.charAt(0).toUpperCase() + w.slice(1));
 }
 
-/* Delegated (re)binding for buy/subscribe buttons within a given container.
-   Safe to call repeatedly on freshly-inserted markup — never double-binds
-   because each call only targets nodes that exist at call time. */
+/* Delegated (re)binding for buy buttons within a given container. Safe to
+   call repeatedly on freshly-inserted markup — never double-binds because
+   each call only targets nodes that exist at call time. */
 function wireBuyButtonsWithin(container) {
   container.querySelectorAll("[data-buy]").forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
       e.stopPropagation();
-      addToCart(btn.getAttribute("data-buy"), false);
-    });
-  });
-  container.querySelectorAll("[data-subscribe]").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      addToCart(btn.getAttribute("data-subscribe"), true);
+      addToCart(btn.getAttribute("data-buy"));
     });
   });
 }
@@ -368,21 +355,6 @@ const FAQ_TOPICS = [
     }
   },
   {
-    id: "subscribe",
-    label: "Subscribe & Save",
-    icon: ICONS.clock,
-    keywords: ["subscribe", "subscription", "save", "recurring", "auto"],
-    answer: "Choose Subscribe on a product page to get 5% off that item on recurring orders instead of a one-time purchase.",
-    followUp: {
-      prompt: "What would you like to know?",
-      options: [
-        { id: "savings", label: "How much do I save?", answer: "Choosing Subscribe on a product page gets you 5% off that item on every recurring order." },
-        { id: "start", label: "How do I start one?", answer: "Open any product page and choose Subscribe instead of a one-time purchase." },
-        { id: "manage", label: "Can I change or cancel it?", answer: "For help changing or canceling a subscription, email Info@hoopbiopharma.com and our team can take care of it." }
-      ]
-    }
-  },
-  {
     id: "contact",
     label: "Talk to a person",
     icon: ICONS.mail,
@@ -399,7 +371,7 @@ const FAQ_TOPICS = [
   }
 ];
 const FAQ_PRIMARY_IDS = ["order", "pricing", "research", "account"];
-const FAQ_SECONDARY_IDS = ["purity", "shipping", "subscribe", "contact"];
+const FAQ_SECONDARY_IDS = ["purity", "shipping", "contact"];
 
 function faqTopic(id) {
   return FAQ_TOPICS.find((t) => t.id === id);
@@ -583,7 +555,6 @@ function navigate() {
   else if (seg === "coa") inner = viewCOA();
   else if (seg === "checkout") inner = viewCheckout();
   else if (seg === "order-confirmation") inner = viewOrderConfirmation(r.query);
-  else if (seg === "manage-subscription") inner = viewManageSubscription();
   else if (seg === "admin" && r.path[1] === "orders") inner = viewAdminOrders();
   else if (seg === "admin" && r.path[1] === "promo-codes") inner = viewAdminPromoCodes();
   else if (seg === "admin") inner = viewAdmin();
@@ -677,7 +648,7 @@ function footerHTML() {
         </form>
       </div>
       <div class="footer-col"><h4>Navigate</h4>
-        <a href="#/">Home</a><a href="#/about">About</a><a href="#/shop">Shop</a><a href="#/wholesale">Wholesale</a><a href="#/gallery">Gallery</a><a href="#/contact">Contact</a><a href="#/manage-subscription">Manage Subscription</a>
+        <a href="#/">Home</a><a href="#/about">About</a><a href="#/shop">Shop</a><a href="#/wholesale">Wholesale</a><a href="#/gallery">Gallery</a><a href="#/contact">Contact</a>
       </div>
       <div class="footer-col"><h4>Peptide Information</h4>
         <a href="#/glossary">Glossary</a><a href="#/methodology">Our Methodology</a><a href="#/compare">Compare Peptides</a><a href="#/coa">Certificates of Analysis</a>
@@ -727,9 +698,7 @@ function productCard(item, index) {
       <span class="card-price">${priceLabel}</span>
       ${item.isFamily ? `<span class="card-doses mono">${item.variantCount} doses</span>` : `<button class="card-addbtn" type="button" data-buy="${item.id}">Add to Cart</button>`}
     </div>
-    ${item.isFamily
-      ? `<a href="#/shop/${item.id}" class="card-subbtn">Select Dosage</a>`
-      : `<button class="card-subbtn" type="button" data-subscribe="${item.id}">Subscribe &amp; Save</button>`}
+    ${item.isFamily ? `<a href="#/shop/${item.id}" class="card-subbtn">Select Dosage</a>` : ""}
   </div>`;
 }
 
@@ -774,7 +743,6 @@ const HOME_FAQ_IDS = [
   { id: "research", q: "Are these peptides safe for human or animal use?" },
   { id: "shipping", q: "What are your shipping and returns policies?" },
   { id: "account", q: "How do I create an account or sign in?" },
-  { id: "subscribe", q: "How does Subscribe & Save work?" },
   { id: "contact", q: "How do I talk to a real person?" }
 ];
 
@@ -1217,11 +1185,10 @@ function productPaneHTML(fam, variantId) {
             <div class="pd-dose-pills" id="doseSelector">${dosePills}</div>
           </div>
           ${currentTier().badge ? `<span class="tier-badge">${esc(currentTier().badge)}</span>` : ""}
-          <div class="pd-price-block"><span class="price">${fmt(tierPrice(v))}</span><span class="price-sub">or ${fmt(tierSubscribePrice(v))} with subscribe</span></div>
+          <div class="pd-price-block"><span class="price">${fmt(tierPrice(v))}</span></div>
           ${tierMOQ() > 1 ? `<div class="pd-moq">Minimum order: ${tierMOQ()} units</div>` : ""}
           <div class="pd-buy-row">
             <button class="btn btn-primary" data-buy="${v.id}">Add to Cart</button>
-            <button class="btn btn-secondary" data-subscribe="${v.id}">Subscribe &amp; Save</button>
           </div>
           ${fam.brochure ? `<a class="btn btn-secondary pd-brochure-btn" href="${fam.brochure}" target="_blank" rel="noopener">${ICONS.download}Download Brochure</a>` : ""}
           <dl class="spec-table">${specRows}</dl>
@@ -1276,11 +1243,10 @@ function viewProduct(id) {
           <div class="pd-sku">SKU ${esc(p.sku)} · ${esc(p.concentration)} · ${esc(p.tagline)}</div>
           <p class="pd-desc">${esc(p.description)}</p>
           ${currentTier().badge ? `<span class="tier-badge">${esc(currentTier().badge)}</span>` : ""}
-          <div class="pd-price-block"><span class="price">${fmt(tierPrice(p))}</span><span class="price-sub">or ${fmt(tierSubscribePrice(p))} with subscribe</span></div>
+          <div class="pd-price-block"><span class="price">${fmt(tierPrice(p))}</span></div>
           ${tierMOQ() > 1 ? `<div class="pd-moq">Minimum order: ${tierMOQ()} units</div>` : ""}
           <div class="pd-buy-row">
             <button class="btn btn-primary" data-buy="${p.id}">Add to Cart</button>
-            <button class="btn btn-secondary" data-subscribe="${p.id}">Subscribe &amp; Save</button>
           </div>
           ${p.brochure ? `<a class="btn btn-secondary pd-brochure-btn" href="${p.brochure}" target="_blank" rel="noopener">${ICONS.download}Download Brochure</a>` : ""}
           <dl class="spec-table">${specRows}</dl>
@@ -1818,9 +1784,9 @@ function checkoutLinesHTML() {
   return cart.map((l) => {
     const p = byId[l.id];
     if (!p) return "";
-    const unit = unitPrice(p, l.subscribed);
+    const unit = tierPrice(p);
     return `<div class="co-summary-line">
-      <span>${esc(p.name)} × ${l.qty}${l.subscribed ? " · subscribe" : ""}</span>
+      <span>${esc(p.name)} × ${l.qty}</span>
       <span>${fmt(unit * l.qty)}</span>
     </div>`;
   }).join("");
@@ -1828,81 +1794,15 @@ function checkoutLinesHTML() {
 
 function viewOrderConfirmation(query) {
   const ok = !!(query && query.session_id);
-  const isSubscription = query && query.mode === "subscription";
   if (ok) { cart = []; persistCart(); renderCartCount(); }
   return `
   <div class="page-hero info-hero"><div class="wrap">
     <h1>${ok ? "Thank you — your order is in!" : "Checkout session not found"}</h1>
     <p class="lede">${ok
-      ? (isSubscription
-          ? "Payment was received and your subscription is active. You'll be billed monthly until you cancel — manage or cancel it anytime below."
-          : "Payment was received. A confirmation is on its way to your email, and our team will follow up with tracking once your order ships.")
+      ? "Payment was received. A confirmation is on its way to your email, and our team will follow up with tracking once your order ships."
       : "We couldn't confirm that payment session. If you completed a payment, check your email for a Stripe receipt, or contact Info@hoopbiopharma.com."}</p>
-    <div style="margin-top:22px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
-      <a href="#/shop" class="btn btn-primary">Continue shopping</a>
-      ${ok && isSubscription ? `<button type="button" class="btn btn-ghost" id="manageSubBtn" data-session-id="${esc(query.session_id)}">Manage subscription</button>` : ""}
-    </div>
+    <a href="#/shop" class="btn btn-primary" style="margin-top:22px;">Continue shopping</a>
   </div></div>`;
-}
-
-function wireOrderConfirmationPage() {
-  const btn = document.getElementById("manageSubBtn");
-  if (!btn) return;
-  btn.addEventListener("click", async () => {
-    btn.disabled = true;
-    btn.textContent = "Opening…";
-    try {
-      const res = await fetch("/api/create-portal-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sessionId: btn.getAttribute("data-session-id") })
-      });
-      const data = await res.json();
-      if (!res.ok || !data.url) throw new Error(data.error || "Could not open the subscription portal");
-      window.location.href = data.url;
-    } catch (err) {
-      showToast(err.message || "Could not open the subscription portal — please try again");
-      btn.disabled = false;
-      btn.textContent = "Manage subscription";
-    }
-  });
-}
-
-function viewManageSubscription() {
-  return `
-  <div class="page-hero info-hero"><div class="wrap">
-    <h1>Manage your subscription</h1>
-    <p class="lede">Enter the email you subscribed with to view invoices, update your card, or cancel.</p>
-    <div class="co-field-row" style="max-width:420px; margin:22px auto 0; justify-content:center;">
-      <div class="auth-field" style="flex:1;"><label for="manageSubEmail">Email</label><input type="email" id="manageSubEmail" placeholder="you@example.com" required></div>
-    </div>
-    <button type="button" class="btn btn-primary" id="manageSubGo" style="margin-top:14px;">Open subscription portal</button>
-  </div></div>`;
-}
-
-function wireManageSubscriptionPage() {
-  const btn = document.getElementById("manageSubGo");
-  if (!btn) return;
-  btn.addEventListener("click", async () => {
-    const email = (document.getElementById("manageSubEmail") || {}).value?.trim();
-    if (!email) { showToast("Enter the email you subscribed with"); return; }
-    btn.disabled = true;
-    btn.textContent = "Opening…";
-    try {
-      const res = await fetch("/api/create-portal-session", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email })
-      });
-      const data = await res.json();
-      if (!res.ok || !data.url) throw new Error(data.error || "No subscription found for that email");
-      window.location.href = data.url;
-    } catch (err) {
-      showToast(err.message || "No subscription found for that email");
-      btn.disabled = false;
-      btn.textContent = "Open subscription portal";
-    }
-  });
 }
 
 function viewCheckout() {
@@ -1969,8 +1869,8 @@ function viewCheckout() {
         </div>
         <div class="co-panel" data-co-panel="2" hidden>
           <h3>Review &amp; payment</h3>
-          <p class="co-note">You'll be redirected to Stripe's secure checkout to complete payment.</p>
-          <div class="co-actions"><button type="button" class="btn btn-ghost" id="coStep2Back">Back</button><button type="button" class="btn btn-primary" id="coPlaceOrder">Pay Now</button></div>
+          <div class="co-actions co-actions-end"><button type="button" class="btn btn-ghost" id="coStep2Back">Back</button></div>
+          <div id="stripeCheckoutMount" class="stripe-embedded-mount"></div>
         </div>
       </div>
       <aside class="checkout-summary">
@@ -2087,31 +1987,29 @@ function wireCheckoutPage() {
 
   updateShipSummary();
 
-  const next1 = document.getElementById("coStep1Next");
-  if (next1) next1.addEventListener("click", () => {
-    if (!validStep1()) { showToast("Please fill in your name, phone, and full shipping address"); return; }
-    goToStep(2);
-  });
-  const back2 = document.getElementById("coStep2Back");
-  if (back2) back2.addEventListener("click", () => goToStep(1));
+  // Embedded Stripe Checkout — mounted into #stripeCheckoutMount once the
+  // shopper reaches step 2. Recreated (destroy + fetch a fresh session)
+  // every time step 2 is (re-)entered, so a promo code or shipping method
+  // changed after going Back is reflected in the mounted total.
+  let embeddedCheckout = null;
+  let stripeClient = null;
 
-  const placeOrder = document.getElementById("coPlaceOrder");
-  if (placeOrder) placeOrder.addEventListener("click", async () => {
-    const acctEmail = currentUser && currentUser.email ? currentUser.email : "";
-    placeOrder.disabled = true;
-    placeOrder.textContent = "Redirecting to payment…";
+  async function mountEmbeddedCheckout() {
+    const mountEl = document.getElementById("stripeCheckoutMount");
+    if (!mountEl) return;
+    mountEl.innerHTML = '<div class="co-embed-loading">Loading secure payment…</div>';
     try {
       const res = await fetch("/api/create-checkout-session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: cart.map((l) => ({ id: l.id, qty: l.qty, subscribed: !!l.subscribed })),
+          items: cart.map((l) => ({ id: l.id, qty: l.qty })),
           shipMethod: selectedShipKey(),
           promoCode: appliedPromo ? appliedPromo.code : null,
           customer: {
             name: val("coName"),
             phone: val("coPhone"),
-            email: acctEmail,
+            email: currentUser && currentUser.email ? currentUser.email : "",
             address: val("coAddress"),
             city: val("coCity"),
             state: val("coState"),
@@ -2121,13 +2019,29 @@ function wireCheckoutPage() {
         })
       });
       const data = await res.json();
-      if (!res.ok || !data.url) throw new Error(data.error || "Could not start checkout");
-      window.location.href = data.url;
+      if (!res.ok || !data.clientSecret) throw new Error(data.error || "Could not start checkout");
+      if (embeddedCheckout) { embeddedCheckout.destroy(); embeddedCheckout = null; }
+      if (!stripeClient) stripeClient = Stripe(data.publishableKey);
+      mountEl.innerHTML = "";
+      embeddedCheckout = await stripeClient.createEmbeddedCheckoutPage({
+        fetchClientSecret: async () => data.clientSecret
+      });
+      embeddedCheckout.mount("#stripeCheckoutMount");
     } catch (err) {
-      showToast(err.message || "Something went wrong starting checkout — please try again");
-      placeOrder.disabled = false;
-      placeOrder.textContent = "Pay Now";
+      mountEl.innerHTML = `<p class="co-note co-embed-error">${esc(err.message || "Something went wrong starting checkout — please try again")}</p>`;
     }
+  }
+
+  const next1 = document.getElementById("coStep1Next");
+  if (next1) next1.addEventListener("click", () => {
+    if (!validStep1()) { showToast("Please fill in your name, phone, and full shipping address"); return; }
+    goToStep(2);
+    mountEmbeddedCheckout();
+  });
+  const back2 = document.getElementById("coStep2Back");
+  if (back2) back2.addEventListener("click", () => {
+    if (embeddedCheckout) { embeddedCheckout.destroy(); embeddedCheckout = null; }
+    goToStep(1);
   });
 
   goToStep(1);
@@ -3691,8 +3605,6 @@ function wireDynamic() {
   }
 
   wireCheckoutPage();
-  wireOrderConfirmationPage();
-  wireManageSubscriptionPage();
   wireGalleryPage();
   wireAdminPage();
   wireAdminOrdersPage();

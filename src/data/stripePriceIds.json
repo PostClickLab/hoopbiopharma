@@ -2,362 +2,256 @@
   "5a1mq-50mg": {
     "productId": "prod_VI0ou98a5k23CV",
     "priceId": "price_1UHQn6HufI0szAVzPbZ4shWi",
-    "amount": 8000,
-    "recurringPriceId": "price_1UHR7qHufI0szAVzVr9b0udQ",
-    "recurAmount": 7600
+    "amount": 8000
   },
   "bac-water-10ml": {
     "productId": "prod_VI0oyXRFcW7ifC",
     "priceId": "price_1UHQn6HufI0szAVzDDfiskly",
-    "amount": 1530,
-    "recurringPriceId": "price_1UHR7qHufI0szAVz9wOtRvzZ",
-    "recurAmount": 1454
+    "amount": 1530
   },
   "bac-water-3ml": {
     "productId": "prod_VI0orQaZtEEmGP",
     "priceId": "price_1UHQn6HufI0szAVz98DDAP7r",
-    "amount": 1000,
-    "recurringPriceId": "price_1UHR7rHufI0szAVz9iDHrRSC",
-    "recurAmount": 950
+    "amount": 1000
   },
   "bpc157-10mg": {
     "productId": "prod_VI0obcyW6gT8k3",
     "priceId": "price_1UHQn7HufI0szAVzR3AuPoDQ",
-    "amount": 10000,
-    "recurringPriceId": "price_1UHR7sHufI0szAVzLSClu9ca",
-    "recurAmount": 9500
+    "amount": 10000
   },
   "bpc157-tb500-wolverine": {
     "productId": "prod_VI0on2FzewFsAR",
     "priceId": "price_1UHQn7HufI0szAVz6BxNF6JC",
-    "amount": 15150,
-    "recurringPriceId": "price_1UHR7sHufI0szAVzBz1qJJe8",
-    "recurAmount": 14392
+    "amount": 15150
   },
   "cjc1295-dac-5mg": {
     "productId": "prod_VI0o14vENxVEm6",
     "priceId": "price_1UHQn7HufI0szAVz1I6C46YD",
-    "amount": 10200,
-    "recurringPriceId": "price_1UHR7tHufI0szAVzVyq0oBim",
-    "recurAmount": 9690
+    "amount": 10200
   },
   "cjc1295-no-dac-5mg": {
     "productId": "prod_VI0oOgYW5sTtvt",
     "priceId": "price_1UHQn8HufI0szAVzNvRDtRPd",
-    "amount": 8700,
-    "recurringPriceId": "price_1UHR7tHufI0szAVzWIaomEVf",
-    "recurAmount": 8265
+    "amount": 8700
   },
   "cjc1295-ipamorelin-blend": {
     "productId": "prod_VI0ogzmCvDlneS",
     "priceId": "price_1UHQn8HufI0szAVzclkNAE8z",
-    "amount": 15544,
-    "recurringPriceId": "price_1UHR7uHufI0szAVzHyjiJScZ",
-    "recurAmount": 14767
+    "amount": 15544
   },
   "epithalon-50mg": {
     "productId": "prod_VI0oWYDR9sSJI3",
     "priceId": "price_1UHQn8HufI0szAVzgKCE8rSJ",
-    "amount": 10000,
-    "recurringPriceId": "price_1UHR7vHufI0szAVzddErP08r",
-    "recurAmount": 9500
+    "amount": 10000
   },
   "ghk-cu-50mg": {
     "productId": "prod_VI0obg6PvvIbya",
     "priceId": "price_1UHQn8HufI0szAVzBZlK8bLd",
-    "amount": 6800,
-    "recurringPriceId": "price_1UHR7vHufI0szAVz4kL4OTQq",
-    "recurAmount": 6460
+    "amount": 6800
   },
   "ghk-cu-100mg": {
     "productId": "prod_VI0ol0pMUsBhOY",
     "priceId": "price_1UHQn9HufI0szAVzwVcNueKn",
-    "amount": 10000,
-    "recurringPriceId": "price_1UHR7wHufI0szAVzrjBrPBCl",
-    "recurAmount": 9500
+    "amount": 10000
   },
   "glow-blend": {
     "productId": "prod_VI0ohh63bxQFqk",
     "priceId": "price_1UHQn9HufI0szAVzOoImbmoZ",
-    "amount": 13400,
-    "recurringPriceId": "price_1UHR7wHufI0szAVzyt51ZDdC",
-    "recurAmount": 12730
+    "amount": 13400
   },
   "klow-blend": {
     "productId": "prod_VI0ooRBvBP2VY2",
     "priceId": "price_1UHQn9HufI0szAVzGVXEOkFj",
-    "amount": 18900,
-    "recurringPriceId": "price_1UHR7xHufI0szAVzbg0GRmc4",
-    "recurAmount": 17955
+    "amount": 18900
   },
   "semaglutide-20mg": {
     "productId": "prod_VI0opO81P5nQcl",
     "priceId": "price_1UHQn9HufI0szAVz65tOOvfa",
-    "amount": 8100,
-    "recurringPriceId": "price_1UHR7yHufI0szAVzqzcy6lWD",
-    "recurAmount": 7695
+    "amount": 8100
   },
   "glp2-100mg": {
     "productId": "prod_VI0oTJZCXK2WHM",
     "priceId": "price_1UHQnAHufI0szAVzrJkCqgcZ",
-    "amount": 24600,
-    "recurringPriceId": "price_1UHR7yHufI0szAVz5rciZJg0",
-    "recurAmount": 23370
+    "amount": 24600
   },
   "glp2-10mg": {
     "productId": "prod_VI0og8zgyyxDoM",
     "priceId": "price_1UHQnAHufI0szAVz387yzmLx",
-    "amount": 10372,
-    "recurringPriceId": "price_1UHR7zHufI0szAVzPmiP45lE",
-    "recurAmount": 9853
+    "amount": 10372
   },
   "glp2-30mg": {
     "productId": "prod_VI0o0zg4rmBmpc",
     "priceId": "price_1UHQnAHufI0szAVztjXk5Onz",
-    "amount": 16750,
-    "recurringPriceId": "price_1UHR7zHufI0szAVzOUlaq3dB",
-    "recurAmount": 15913
+    "amount": 16750
   },
   "glp2-60mg": {
     "productId": "prod_VI0oWynvd6KXJj",
     "priceId": "price_1UHQnAHufI0szAVzykJJ87Ub",
-    "amount": 20250,
-    "recurringPriceId": "price_1UHR80HufI0szAVziLBcbjEB",
-    "recurAmount": 19238
+    "amount": 20250
   },
   "glp3-10mg": {
     "productId": "prod_VI0oe1MsjyjQj5",
     "priceId": "price_1UHQnBHufI0szAVzkq97IlJF",
-    "amount": 15960,
-    "recurringPriceId": "price_1UHR81HufI0szAVzxmq8YNHD",
-    "recurAmount": 15162
+    "amount": 15960
   },
   "glp3-30mg": {
     "productId": "prod_VI0oUVsUfLCvMb",
     "priceId": "price_1UHQnBHufI0szAVzUpl2Zdty",
-    "amount": 18224,
-    "recurringPriceId": "price_1UHR81HufI0szAVzRazt9f3x",
-    "recurAmount": 17313
+    "amount": 18224
   },
   "glp3-60mg": {
     "productId": "prod_VI0oFYhEcWdThz",
     "priceId": "price_1UHQnBHufI0szAVz0jJJL25z",
-    "amount": 20100,
-    "recurringPriceId": "price_1UHR82HufI0szAVz34kgJdVx",
-    "recurAmount": 19095
+    "amount": 20100
   },
   "glp3-100mg": {
     "productId": "prod_VI0oi2jtrxjpCO",
     "priceId": "price_1UHQnBHufI0szAVzHbKKt6Tz",
-    "amount": 24205,
-    "recurringPriceId": "price_1UHR82HufI0szAVzIkvTMXzJ",
-    "recurAmount": 22995
+    "amount": 24205
   },
   "gsh-1500mg": {
     "productId": "prod_VI0ohDOqDyB9hn",
     "priceId": "price_1UHQnCHufI0szAVzBSAKaufV",
-    "amount": 9715,
-    "recurringPriceId": "price_1UHR83HufI0szAVzSbJxBi7V",
-    "recurAmount": 9229
+    "amount": 9715
   },
   "hcg-10000iu": {
     "productId": "prod_VI0oHmVxIcVHta",
     "priceId": "price_1UHQnCHufI0szAVz6f3ClK1u",
-    "amount": 8000,
-    "recurringPriceId": "price_1UHR84HufI0szAVzz7A9EISF",
-    "recurAmount": 7600
+    "amount": 8000
   },
   "ipamorelin-10mg": {
     "productId": "prod_VI0oYVgvf8ZRA5",
     "priceId": "price_1UHQnCHufI0szAVzJ0PUNezX",
-    "amount": 9100,
-    "recurringPriceId": "price_1UHR84HufI0szAVzGWOGJOm6",
-    "recurAmount": 8645
+    "amount": 9100
   },
   "kpv-10mg": {
     "productId": "prod_VI0osCt7iAmZDb",
     "priceId": "price_1UHQnCHufI0szAVzpDvMp9Et",
-    "amount": 9100,
-    "recurringPriceId": "price_1UHR85HufI0szAVzoFkGQsjo",
-    "recurAmount": 8645
+    "amount": 9100
   },
   "mots-c-10mg": {
     "productId": "prod_VI0ozGOc4Mr2zq",
     "priceId": "price_1UHQnDHufI0szAVzVCWag5ZM",
-    "amount": 9275,
-    "recurringPriceId": "price_1UHR85HufI0szAVzpbPLdhdD",
-    "recurAmount": 8811
+    "amount": 9275
   },
   "mots-c-40mg": {
     "productId": "prod_VI0otVnuCdYnE4",
     "priceId": "price_1UHQnDHufI0szAVz5uU1zlrv",
-    "amount": 14300,
-    "recurringPriceId": "price_1UHR86HufI0szAVzBxiCGtkc",
-    "recurAmount": 13585
+    "amount": 14300
   },
   "mt2-10mg": {
     "productId": "prod_VI0oE2sSGr4y0r",
     "priceId": "price_1UHQnDHufI0szAVzmf0Nkjvf",
-    "amount": 6600,
-    "recurringPriceId": "price_1UHR86HufI0szAVzcGBD9Em3",
-    "recurAmount": 6270
+    "amount": 6600
   },
   "nad-100mg": {
     "productId": "prod_VI0okPJhLqGMxe",
     "priceId": "price_1UHQnDHufI0szAVzB6Ihtz0P",
-    "amount": 6475,
-    "recurringPriceId": "price_1UHR87HufI0szAVz2v6kWXnO",
-    "recurAmount": 6151
+    "amount": 6475
   },
   "nad-500mg": {
     "productId": "prod_VI0oCL8VoeljeH",
     "priceId": "price_1UHQnEHufI0szAVzig534kPp",
-    "amount": 8575,
-    "recurringPriceId": "price_1UHR88HufI0szAVzmvkVygWE",
-    "recurAmount": 8146
+    "amount": 8575
   },
   "nad-1000mg": {
     "productId": "prod_VI0oXlN4ZAZGkc",
     "priceId": "price_1UHQnEHufI0szAVzaCdxcKwy",
-    "amount": 11375,
-    "recurringPriceId": "price_1UHR88HufI0szAVzGhS9nope",
-    "recurAmount": 10806
+    "amount": 11375
   },
   "pt141-10mg": {
     "productId": "prod_VI0ojZ0qOUMSdh",
     "priceId": "price_1UHQnEHufI0szAVzh6Qr5M3s",
-    "amount": 9275,
-    "recurringPriceId": "price_1UHR89HufI0szAVz6i5yb3JO",
-    "recurAmount": 8811
+    "amount": 9275
   },
   "pinealon-10mg": {
     "productId": "prod_VI0oKvKsJz6brA",
     "priceId": "price_1UHQnEHufI0szAVz7LClUevW",
-    "amount": 6900,
-    "recurringPriceId": "price_1UHR89HufI0szAVzTnRD71eW",
-    "recurAmount": 6555
+    "amount": 6900
   },
   "selank-10mg": {
     "productId": "prod_VI0oqC3AjWDsIF",
     "priceId": "price_1UHQnFHufI0szAVzvJs7DpgU",
-    "amount": 6375,
-    "recurringPriceId": "price_1UHR8AHufI0szAVzD3YaUndv",
-    "recurAmount": 6056
+    "amount": 6375
   },
   "semax-10mg": {
     "productId": "prod_VI0otOdVlA5IH0",
     "priceId": "price_1UHQnFHufI0szAVzQZCRRJ52",
-    "amount": 6375,
-    "recurringPriceId": "price_1UHR8BHufI0szAVz0ZN8kIYJ",
-    "recurAmount": 6056
+    "amount": 6375
   },
   "tb500-10mg": {
     "productId": "prod_VI0oT5M0SlfuKc",
     "priceId": "price_1UHQnFHufI0szAVzz8OPa5bg",
-    "amount": 12864,
-    "recurringPriceId": "price_1UHR8BHufI0szAVzZ3digcZA",
-    "recurAmount": 12221
+    "amount": 12864
   },
   "tesamorelin-10mg": {
     "productId": "prod_VI0o9eyHnNdEcX",
     "priceId": "price_1UHQnFHufI0szAVzYxi9fdsk",
-    "amount": 12500,
-    "recurringPriceId": "price_1UHR8CHufI0szAVzRggsl1S2",
-    "recurAmount": 11875
+    "amount": 12500
   },
   "tesamorelin-ipamorelin-blend": {
     "productId": "prod_VI0o1RetCKQR61",
     "priceId": "price_1UHQnGHufI0szAVzb2Hp706Z",
-    "amount": 14000,
-    "recurringPriceId": "price_1UHR8CHufI0szAVzqptqfGxC",
-    "recurAmount": 13300
+    "amount": 14000
   },
   "ta1-10mg": {
     "productId": "prod_VI0oLR1wsrlggP",
     "priceId": "price_1UHQnGHufI0szAVzMAJg1qTL",
-    "amount": 7200,
-    "recurringPriceId": "price_1UHR8DHufI0szAVz1oYyBmD5",
-    "recurAmount": 6840
+    "amount": 7200
   },
   "ghk-cu-kpv-50mg": {
     "productId": "prod_VI0oivr2ZA8pQy",
     "priceId": "price_1UHQnGHufI0szAVzLcrHHVa3",
-    "amount": 12000,
-    "recurringPriceId": "price_1UHR8EHufI0szAVzDrXq8dxt",
-    "recurAmount": 11400
+    "amount": 12000
   },
   "retatrutide-carglintide-25mg5mg": {
     "productId": "prod_VI0oVPSCp1xLqG",
     "priceId": "price_1UHQnGHufI0szAVznSaAObns",
-    "amount": 16430,
-    "recurringPriceId": "price_1UHR8EHufI0szAVzrB6nnRb0",
-    "recurAmount": 15609
+    "amount": 16430
   },
   "semax-selank-blend": {
     "productId": "prod_VI0oQNk9XhiuHx",
     "priceId": "price_1UHQnHHufI0szAVzXITJmV8C",
-    "amount": 10500,
-    "recurringPriceId": "price_1UHR8FHufI0szAVzn5LhCRlv",
-    "recurAmount": 9975
+    "amount": 10500
   },
   "cagrilintide-10mg": {
     "productId": "prod_VI0oqio5EZohQ9",
     "priceId": "price_1UHQnHHufI0szAVzKxv0PlNv",
-    "amount": 14575,
-    "recurringPriceId": "price_1UHR8FHufI0szAVz1d8mNavk",
-    "recurAmount": 13846
+    "amount": 14575
   },
   "aod9604-5mg": {
     "productId": "prod_VI0oDh6xP0PDss",
     "priceId": "price_1UHQnHHufI0szAVziZ77RgO1",
-    "amount": 8250,
-    "recurringPriceId": "price_1UHR8GHufI0szAVz0QipCItu",
-    "recurAmount": 7838
+    "amount": 8250
   },
   "dsip-10mg": {
     "productId": "prod_VI0oce4oj8bTaX",
     "priceId": "price_1UHQnIHufI0szAVztuvKLDkK",
-    "amount": 8000,
-    "recurringPriceId": "price_1UHR8GHufI0szAVz3in9XRlU",
-    "recurAmount": 7600
+    "amount": 8000
   },
   "sermorelin-5mg": {
     "productId": "prod_VI0o5xoCbkQUuo",
     "priceId": "price_1UHQnIHufI0szAVz8lxkfndb",
-    "amount": 5400,
-    "recurringPriceId": "price_1UHR8HHufI0szAVzKEqBvaNa",
-    "recurAmount": 5130
+    "amount": 5400
   },
   "kisspeptin-10mg": {
     "productId": "prod_VI0o3RPANfKMFR",
     "priceId": "price_1UHQnIHufI0szAVzGOUhbSwI",
-    "amount": 5499,
-    "recurringPriceId": "price_1UHR8IHufI0szAVzyi1oLcmV",
-    "recurAmount": 5224
+    "amount": 5499
   },
   "ss31-10mg": {
     "productId": "prod_VI0otrRWROQo9l",
     "priceId": "price_1UHQnIHufI0szAVztWZ4Knle",
-    "amount": 6999,
-    "recurringPriceId": "price_1UHR8IHufI0szAVzPvLgvAqE",
-    "recurAmount": 6649
+    "amount": 6999
   },
   "ss31-50mg": {
     "productId": "prod_VI0oKFX4bmARcD",
     "priceId": "price_1UHQnJHufI0szAVzAuKQsxrZ",
-    "amount": 17200,
-    "recurringPriceId": "price_1UHR8JHufI0szAVza3QUgxHA",
-    "recurAmount": 16340
+    "amount": 17200
   },
   "mots-ghk-kpv-blend": {
     "productId": "prod_VI0oKDW4zsOvPV",
     "priceId": "price_1UHQnJHufI0szAVzcVCjzhqW",
-    "amount": 16800,
-    "recurringPriceId": "price_1UHR8JHufI0szAVzymx4Sho5",
-    "recurAmount": 15960
-  },
-  "__shipping": {
-    "priority": "price_1UHR8KHufI0szAVzRrqrXocx",
-    "overnight": "price_1UHR8KHufI0szAVzZoh3LWyP"
+    "amount": 16800
   }
 }
