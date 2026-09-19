@@ -80,6 +80,15 @@ export default async function handler(req, res) {
       discounts,
       customer_email: customer.email || undefined,
       phone_number_collection: { enabled: true },
+      // Matches the site's own checkout panel so the embedded iframe reads
+      // as part of the page instead of a boxed-in third-party widget — an
+      // iframe can't be styled with our own CSS (same-origin policy), this
+      // is the only supported way to blend it in.
+      branding_settings: {
+        background_color: "#eff1f6",
+        button_color: "#102447",
+        border_style: "rounded",
+      },
       shipping_options: [
         {
           shipping_rate_data: {
