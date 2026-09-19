@@ -1,257 +1,665 @@
 {
   "5a1mq-50mg": {
     "productId": "prod_VI2RMjKbreRvzQ",
-    "priceId": "price_1UHSMMHufI0szAVzfxGTVCjw",
-    "amount": 8000
+    "priceIds": {
+      "retail": "price_1UHTFkHufI0szAVznWERbmqM",
+      "doctor": "price_1UHTFkHufI0szAVz1pIjjXaT",
+      "wholesale": "price_1UHTFkHufI0szAVzI3AC4iLG"
+    },
+    "amounts": {
+      "retail": 8000,
+      "doctor": 4800,
+      "wholesale": 3200
+    }
   },
   "bac-water-10ml": {
     "productId": "prod_VI2RPMht33qYPw",
-    "priceId": "price_1UHSMMHufI0szAVzVlK3hSZ6",
-    "amount": 1530
+    "priceIds": {
+      "retail": "price_1UHTFlHufI0szAVztyZD7LKx",
+      "doctor": "price_1UHTFlHufI0szAVzeXu9ERje",
+      "wholesale": "price_1UHTFlHufI0szAVz2VK5OwsC"
+    },
+    "amounts": {
+      "retail": 1530,
+      "doctor": 1125,
+      "wholesale": 900
+    }
   },
   "bac-water-3ml": {
     "productId": "prod_VI2Rgsg3bhNS71",
-    "priceId": "price_1UHSMNHufI0szAVzeF1tDJp4",
-    "amount": 1000
+    "priceIds": {
+      "retail": "price_1UHTFmHufI0szAVz7RH2cFKQ",
+      "doctor": "price_1UHTFmHufI0szAVzqZQqcjVc",
+      "wholesale": "price_1UHTFmHufI0szAVzuI0EHbFD"
+    },
+    "amounts": {
+      "retail": 1000,
+      "doctor": 625,
+      "wholesale": 500
+    }
   },
   "bpc157-10mg": {
     "productId": "prod_VI2RiDMOHn54Ns",
-    "priceId": "price_1UHSMOHufI0szAVzuK03Midw",
-    "amount": 10000
+    "priceIds": {
+      "retail": "price_1UHTFnHufI0szAVzBFbLsP7P",
+      "doctor": "price_1UHTFnHufI0szAVzqGviMOao",
+      "wholesale": "price_1UHTFoHufI0szAVz1LvDHxq5"
+    },
+    "amounts": {
+      "retail": 10000,
+      "doctor": 4125,
+      "wholesale": 2500
+    }
   },
   "bpc157-tb500-wolverine": {
     "productId": "prod_VI2RV0Y8lt1jDp",
-    "priceId": "price_1UHSMOHufI0szAVzWIihiOJS",
-    "amount": 15150
+    "priceIds": {
+      "retail": "price_1UHTFoHufI0szAVzAOFUh8Fa",
+      "doctor": "price_1UHTFoHufI0szAVzZBmRFkim",
+      "wholesale": "price_1UHTFpHufI0szAVzA4FUSVq9"
+    },
+    "amounts": {
+      "retail": 15150,
+      "doctor": 6060,
+      "wholesale": 5050
+    }
   },
   "cjc1295-dac-5mg": {
     "productId": "prod_VI2R4MEhSkHZ5N",
-    "priceId": "price_1UHSMPHufI0szAVzGq0lT0S9",
-    "amount": 10200
+    "priceIds": {
+      "retail": "price_1UHTFpHufI0szAVzYJcBrVVF",
+      "doctor": "price_1UHTFpHufI0szAVzaXhWMSZo",
+      "wholesale": "price_1UHTFqHufI0szAVzrkFvVhIT"
+    },
+    "amounts": {
+      "retail": 10200,
+      "doctor": 4080,
+      "wholesale": 3400
+    }
   },
   "cjc1295-no-dac-5mg": {
     "productId": "prod_VI2Ryj3FMIlLRd",
-    "priceId": "price_1UHSMQHufI0szAVzQSVLJ5fZ",
-    "amount": 8700
+    "priceIds": {
+      "retail": "price_1UHTFqHufI0szAVz8c1DM05x",
+      "doctor": "price_1UHTFrHufI0szAVzOVSxmmIZ",
+      "wholesale": "price_1UHTFrHufI0szAVzF76EhoCK"
+    },
+    "amounts": {
+      "retail": 8700,
+      "doctor": 4350,
+      "wholesale": 2900
+    }
   },
   "cjc1295-ipamorelin-blend": {
     "productId": "prod_VI2RvfdMYx7X5d",
-    "priceId": "price_1UHSMQHufI0szAVzONZ1rtsr",
-    "amount": 15544
+    "priceIds": {
+      "retail": "price_1UHTFrHufI0szAVzpryy72oA",
+      "doctor": "price_1UHTFsHufI0szAVzSQAvPhLr",
+      "wholesale": "price_1UHTFsHufI0szAVzUhWzXoSJ"
+    },
+    "amounts": {
+      "retail": 15544,
+      "doctor": 5829,
+      "wholesale": 3886
+    }
   },
   "epithalon-50mg": {
     "productId": "prod_VI2R5J60cTO3ky",
-    "priceId": "price_1UHSMRHufI0szAVzu5Zu0MFQ",
-    "amount": 10000
+    "priceIds": {
+      "retail": "price_1UHTFsHufI0szAVzlXnbDdyc",
+      "doctor": "price_1UHTFtHufI0szAVzwxH5qSOy",
+      "wholesale": "price_1UHTFtHufI0szAVzmj9CHSFx"
+    },
+    "amounts": {
+      "retail": 10000,
+      "doctor": 5800,
+      "wholesale": 4000
+    }
   },
   "ghk-cu-50mg": {
     "productId": "prod_VI2RX4k7AoMFwJ",
-    "priceId": "price_1UHSMSHufI0szAVzERMRDV81",
-    "amount": 6800
+    "priceIds": {
+      "retail": "price_1UHTFuHufI0szAVzTyW50MmQ",
+      "doctor": "price_1UHTFuHufI0szAVzJZxFcWDm",
+      "wholesale": "price_1UHTFuHufI0szAVzd8ZQEtHZ"
+    },
+    "amounts": {
+      "retail": 6800,
+      "doctor": 2550,
+      "wholesale": 1700
+    }
   },
   "ghk-cu-100mg": {
     "productId": "prod_VI2RPlfE7kFr11",
-    "priceId": "price_1UHSMSHufI0szAVzpV435Fxq",
-    "amount": 10000
+    "priceIds": {
+      "retail": "price_1UHTFvHufI0szAVzoc1cegTv",
+      "doctor": "price_1UHTFvHufI0szAVzLWT14NXx",
+      "wholesale": "price_1UHTFvHufI0szAVzE6yB3zy1"
+    },
+    "amounts": {
+      "retail": 10000,
+      "doctor": 4875,
+      "wholesale": 2500
+    }
   },
   "glow-blend": {
     "productId": "prod_VI2RytasYesuLH",
-    "priceId": "price_1UHSMTHufI0szAVzSWprsJjg",
-    "amount": 13400
+    "priceIds": {
+      "retail": "price_1UHTFwHufI0szAVzNQcTzOC6",
+      "doctor": "price_1UHTFwHufI0szAVz1iqiqMVt",
+      "wholesale": "price_1UHTFwHufI0szAVzqvS1QF0R"
+    },
+    "amounts": {
+      "retail": 13400,
+      "doctor": 5494,
+      "wholesale": 5360
+    }
   },
   "klow-blend": {
     "productId": "prod_VI2RBV0GcgV3MG",
-    "priceId": "price_1UHSMUHufI0szAVzQcCG85K3",
-    "amount": 18900
+    "priceIds": {
+      "retail": "price_1UHTFxHufI0szAVzybNNIDFf",
+      "doctor": "price_1UHTFxHufI0szAVzw4k8pz9q",
+      "wholesale": "price_1UHTFxHufI0szAVz4qBAUktd"
+    },
+    "amounts": {
+      "retail": 18900,
+      "doctor": 9207,
+      "wholesale": 5400
+    }
   },
   "semaglutide-20mg": {
     "productId": "prod_VI2Rld6vBa7qXd",
-    "priceId": "price_1UHSMUHufI0szAVzQbXFGski",
-    "amount": 8100
+    "priceIds": {
+      "retail": "price_1UHTFyHufI0szAVzCKzIaV1m",
+      "doctor": "price_1UHTFyHufI0szAVzP5Sy4jcg",
+      "wholesale": "price_1UHTFyHufI0szAVzG3UtG9uh"
+    },
+    "amounts": {
+      "retail": 8100,
+      "doctor": 4050,
+      "wholesale": 2700
+    }
   },
   "glp2-100mg": {
     "productId": "prod_VI2RfMeKnm78k4",
-    "priceId": "price_1UHSMVHufI0szAVzjhMosVzG",
-    "amount": 24600
+    "priceIds": {
+      "retail": "price_1UHTFzHufI0szAVzCKhlW6Z3",
+      "doctor": "price_1UHTFzHufI0szAVz7Al9hZvc",
+      "wholesale": "price_1UHTFzHufI0szAVzU2KZhEi0"
+    },
+    "amounts": {
+      "retail": 24600,
+      "doctor": 20049,
+      "wholesale": 8200
+    }
   },
   "glp2-10mg": {
     "productId": "prod_VI2RrZ5ruDyeQt",
-    "priceId": "price_1UHSMWHufI0szAVzpJ9cmbuk",
-    "amount": 10372
+    "priceIds": {
+      "retail": "price_1UHTG0HufI0szAVzlohsjwtt",
+      "doctor": "price_1UHTG0HufI0szAVzu5VnAw0v",
+      "wholesale": "price_1UHTG0HufI0szAVzip4MRv8J"
+    },
+    "amounts": {
+      "retail": 10372,
+      "doctor": 5306,
+      "wholesale": 2412
+    }
   },
   "glp2-30mg": {
     "productId": "prod_VI2RmOKzGM038j",
-    "priceId": "price_1UHSMWHufI0szAVzs0WUq0PG",
-    "amount": 16750
+    "priceIds": {
+      "retail": "price_1UHTG1HufI0szAVzpdSARuY1",
+      "doctor": "price_1UHTG1HufI0szAVz0vVYw0NV",
+      "wholesale": "price_1UHTG1HufI0szAVzhwdEhwZd"
+    },
+    "amounts": {
+      "retail": 16750,
+      "doctor": 15410,
+      "wholesale": 3350
+    }
   },
   "glp2-60mg": {
     "productId": "prod_VI2R86Y3YEj25p",
-    "priceId": "price_1UHSMXHufI0szAVzl0NBKStS",
-    "amount": 20250
+    "priceIds": {
+      "retail": "price_1UHTG2HufI0szAVzY4662DTy",
+      "doctor": "price_1UHTG2HufI0szAVzH0gtAFUc",
+      "wholesale": "price_1UHTG3HufI0szAVz1bQYb3ti"
+    },
+    "amounts": {
+      "retail": 20250,
+      "doctor": 18900,
+      "wholesale": 5400
+    }
   },
   "glp3-10mg": {
     "productId": "prod_VI2RdH1uLqX7bS",
-    "priceId": "price_1UHSMYHufI0szAVzemsIJNgR",
-    "amount": 15960
+    "priceIds": {
+      "retail": "price_1UHTG3HufI0szAVzCpDE6J8E",
+      "doctor": "price_1UHTG3HufI0szAVz16SwkjYM",
+      "wholesale": "price_1UHTG4HufI0szAVzPaWNbXEh"
+    },
+    "amounts": {
+      "retail": 15960,
+      "doctor": 5100,
+      "wholesale": 3000
+    }
   },
   "glp3-30mg": {
     "productId": "prod_VI2R3qLxUCHZrN",
-    "priceId": "price_1UHSMYHufI0szAVzYAR5MlpA",
-    "amount": 18224
+    "priceIds": {
+      "retail": "price_1UHTG4HufI0szAVzKc3QfKwb",
+      "doctor": "price_1UHTG4HufI0szAVzWg7t9MNQ",
+      "wholesale": "price_1UHTG5HufI0szAVzIeGSOFK1"
+    },
+    "amounts": {
+      "retail": 18224,
+      "doctor": 8040,
+      "wholesale": 5360
+    }
   },
   "glp3-60mg": {
     "productId": "prod_VI2RPCIfWJR3zp",
-    "priceId": "price_1UHSMZHufI0szAVz3Lhx9pvo",
-    "amount": 20100
+    "priceIds": {
+      "retail": "price_1UHTG5HufI0szAVzGMI4qMxL",
+      "doctor": "price_1UHTG6HufI0szAVzL4t60Obc",
+      "wholesale": "price_1UHTG6HufI0szAVzBOljcOiI"
+    },
+    "amounts": {
+      "retail": 20100,
+      "doctor": 13748,
+      "wholesale": 8040
+    }
   },
   "glp3-100mg": {
     "productId": "prod_VI2RGfuOJCeRr9",
-    "priceId": "price_1UHSMaHufI0szAVzb6FzqfEW",
-    "amount": 24205
+    "priceIds": {
+      "retail": "price_1UHTG6HufI0szAVztiCU7nWU",
+      "doctor": "price_1UHTG7HufI0szAVzbfWQBlLq",
+      "wholesale": "price_1UHTG7HufI0szAVze5y0Yery"
+    },
+    "amounts": {
+      "retail": 24205,
+      "doctor": 19055,
+      "wholesale": 10300
+    }
   },
   "gsh-1500mg": {
     "productId": "prod_VI2R445m34Nizr",
-    "priceId": "price_1UHSMaHufI0szAVzM8Vts97w",
-    "amount": 9715
+    "priceIds": {
+      "retail": "price_1UHTG8HufI0szAVzi1UQj9oq",
+      "doctor": "price_1UHTG8HufI0szAVzKuH1fWno",
+      "wholesale": "price_1UHTG8HufI0szAVz3NbPFdC3"
+    },
+    "amounts": {
+      "retail": 9715,
+      "doctor": 5025,
+      "wholesale": 3350
+    }
   },
   "hcg-10000iu": {
     "productId": "prod_VI2RGFWVBgI4IP",
-    "priceId": "price_1UHSMbHufI0szAVz03vpeLtc",
-    "amount": 8000
+    "priceIds": {
+      "retail": "price_1UHTG9HufI0szAVz5RoGlGxZ",
+      "doctor": "price_1UHTG9HufI0szAVzybK5WSvO",
+      "wholesale": "price_1UHTG9HufI0szAVzTsry6HEg"
+    },
+    "amounts": {
+      "retail": 8000,
+      "doctor": 5000,
+      "wholesale": 4000
+    }
   },
   "ipamorelin-10mg": {
     "productId": "prod_VI2RMzpCzSptGt",
-    "priceId": "price_1UHSMcHufI0szAVzzO4WFJEv",
-    "amount": 9100
+    "priceIds": {
+      "retail": "price_1UHTGAHufI0szAVza3edcJwH",
+      "doctor": "price_1UHTGAHufI0szAVz4j63UMp9",
+      "wholesale": "price_1UHTGAHufI0szAVzBpmHVhcF"
+    },
+    "amounts": {
+      "retail": 9100,
+      "doctor": 3900,
+      "wholesale": 2600
+    }
   },
   "kpv-10mg": {
     "productId": "prod_VI2R987yw62M9z",
-    "priceId": "price_1UHSMcHufI0szAVzM6IldeMW",
-    "amount": 9100
+    "priceIds": {
+      "retail": "price_1UHTGBHufI0szAVzunMdryRE",
+      "doctor": "price_1UHTGBHufI0szAVzG21kmAWg",
+      "wholesale": "price_1UHTGBHufI0szAVz9D8i7iGy"
+    },
+    "amounts": {
+      "retail": 9100,
+      "doctor": 3640,
+      "wholesale": 2600
+    }
   },
   "mots-c-10mg": {
     "productId": "prod_VI2RT4i91ARm4T",
-    "priceId": "price_1UHSMdHufI0szAVzUlaRvZuF",
-    "amount": 9275
+    "priceIds": {
+      "retail": "price_1UHTGCHufI0szAVzVHxWCxm9",
+      "doctor": "price_1UHTGCHufI0szAVzibuvtzeC",
+      "wholesale": "price_1UHTGCHufI0szAVzYgpFunrn"
+    },
+    "amounts": {
+      "retail": 9275,
+      "doctor": 3975,
+      "wholesale": 2650
+    }
   },
   "mots-c-40mg": {
     "productId": "prod_VI2Re2mUpn8RlM",
-    "priceId": "price_1UHSMeHufI0szAVz097N3Um5",
-    "amount": 14300
+    "priceIds": {
+      "retail": "price_1UHTGDHufI0szAVzROWqnMek",
+      "doctor": "price_1UHTGDHufI0szAVzFtE3RsXn",
+      "wholesale": "price_1UHTGDHufI0szAVz1EJPiyLT"
+    },
+    "amounts": {
+      "retail": 14300,
+      "doctor": 6160,
+      "wholesale": 4400
+    }
   },
   "mt2-10mg": {
     "productId": "prod_VI2Ro6oMIdjn9Q",
-    "priceId": "price_1UHSMeHufI0szAVzAEM046yJ",
-    "amount": 6600
+    "priceIds": {
+      "retail": "price_1UHTGEHufI0szAVzW2P5omFe",
+      "doctor": "price_1UHTGEHufI0szAVzdTwMRmJl",
+      "wholesale": "price_1UHTGEHufI0szAVz33yrOuN8"
+    },
+    "amounts": {
+      "retail": 6600,
+      "doctor": 3300,
+      "wholesale": 2200
+    }
   },
   "nad-100mg": {
     "productId": "prod_VI2R4Z8e0AzYMx",
-    "priceId": "price_1UHSMfHufI0szAVzIEKZpv74",
-    "amount": 6475
+    "priceIds": {
+      "retail": "price_1UHTGFHufI0szAVz7HOsck4D",
+      "doctor": "price_1UHTGFHufI0szAVzbbZLipb1",
+      "wholesale": "price_1UHTGGHufI0szAVzYDMHgsDR"
+    },
+    "amounts": {
+      "retail": 6475,
+      "doctor": 2775,
+      "wholesale": 1850
+    }
   },
   "nad-500mg": {
     "productId": "prod_VI2RhiQcm9dTSa",
-    "priceId": "price_1UHSMgHufI0szAVzQEcuhklo",
-    "amount": 8575
+    "priceIds": {
+      "retail": "price_1UHTGGHufI0szAVzedazk2rJ",
+      "doctor": "price_1UHTGGHufI0szAVzywTYWF78",
+      "wholesale": "price_1UHTGHHufI0szAVzNkCxJEPW"
+    },
+    "amounts": {
+      "retail": 8575,
+      "doctor": 3675,
+      "wholesale": 2450
+    }
   },
   "nad-1000mg": {
     "productId": "prod_VI2RJSrpSY0jfb",
-    "priceId": "price_1UHSMgHufI0szAVzBLvR4kqy",
-    "amount": 11375
+    "priceIds": {
+      "retail": "price_1UHTGHHufI0szAVz9G0ClHrc",
+      "doctor": "price_1UHTGHHufI0szAVzUGljEMbv",
+      "wholesale": "price_1UHTGIHufI0szAVzmvLJMIME"
+    },
+    "amounts": {
+      "retail": 11375,
+      "doctor": 5525,
+      "wholesale": 3250
+    }
   },
   "pt141-10mg": {
     "productId": "prod_VI2RhQhd9mIDXT",
-    "priceId": "price_1UHSMhHufI0szAVzkXxOC7XE",
-    "amount": 9275
+    "priceIds": {
+      "retail": "price_1UHTGIHufI0szAVzvXm2vaax",
+      "doctor": "price_1UHTGJHufI0szAVzhOFEVnmx",
+      "wholesale": "price_1UHTGJHufI0szAVzBMIh1FER"
+    },
+    "amounts": {
+      "retail": 9275,
+      "doctor": 4108,
+      "wholesale": 2650
+    }
   },
   "pinealon-10mg": {
     "productId": "prod_VI2R13PoZ9SU7p",
-    "priceId": "price_1UHSMiHufI0szAVzSY8hmfQM",
-    "amount": 6900
+    "priceIds": {
+      "retail": "price_1UHTGJHufI0szAVzVAf2PGGN",
+      "doctor": "price_1UHTGKHufI0szAVz0eW0yI6v",
+      "wholesale": "price_1UHTGKHufI0szAVzC3SwYtjq"
+    },
+    "amounts": {
+      "retail": 6900,
+      "doctor": 3450,
+      "wholesale": 2300
+    }
   },
   "selank-10mg": {
     "productId": "prod_VI2R103mgCyFmQ",
-    "priceId": "price_1UHSMiHufI0szAVz68R90xg0",
-    "amount": 6375
+    "priceIds": {
+      "retail": "price_1UHTGKHufI0szAVzDauRfXfi",
+      "doctor": "price_1UHTGLHufI0szAVzbNQuipH9",
+      "wholesale": "price_1UHTGLHufI0szAVzzOZMWDYB"
+    },
+    "amounts": {
+      "retail": 6375,
+      "doctor": 4080,
+      "wholesale": 2550
+    }
   },
   "semax-10mg": {
     "productId": "prod_VI2RjcFYoGPIet",
-    "priceId": "price_1UHSMjHufI0szAVzlXu7O2jf",
-    "amount": 6375
+    "priceIds": {
+      "retail": "price_1UHTGMHufI0szAVzrlygx7M7",
+      "doctor": "price_1UHTGMHufI0szAVz0iygpFSz",
+      "wholesale": "price_1UHTGMHufI0szAVzpgc2euvh"
+    },
+    "amounts": {
+      "retail": 6375,
+      "doctor": 2831,
+      "wholesale": 2550
+    }
   },
   "tb500-10mg": {
     "productId": "prod_VI2R0BsgDM5rpo",
-    "priceId": "price_1UHSMkHufI0szAVzAdBIuzfN",
-    "amount": 12864
+    "priceIds": {
+      "retail": "price_1UHTGNHufI0szAVzzScF5P1e",
+      "doctor": "price_1UHTGNHufI0szAVzPQAqNowZ",
+      "wholesale": "price_1UHTGNHufI0szAVzAhLWFm2w"
+    },
+    "amounts": {
+      "retail": 12864,
+      "doctor": 4824,
+      "wholesale": 3216
+    }
   },
   "tesamorelin-10mg": {
     "productId": "prod_VI2R6jAlmHZNDl",
-    "priceId": "price_1UHSMkHufI0szAVzbcozjVhh",
-    "amount": 12500
+    "priceIds": {
+      "retail": "price_1UHTGOHufI0szAVzrkgyUpqX",
+      "doctor": "price_1UHTGOHufI0szAVzie6cC58r",
+      "wholesale": "price_1UHTGOHufI0szAVznze6QATu"
+    },
+    "amounts": {
+      "retail": 12500,
+      "doctor": 5800,
+      "wholesale": 5000
+    }
   },
   "tesamorelin-ipamorelin-blend": {
     "productId": "prod_VI2RijCTStPAAk",
-    "priceId": "price_1UHSMlHufI0szAVz7tlboAUM",
-    "amount": 14000
+    "priceIds": {
+      "retail": "price_1UHTGPHufI0szAVzhw3qOMI5",
+      "doctor": "price_1UHTGPHufI0szAVzUGv3VmEj",
+      "wholesale": "price_1UHTGPHufI0szAVzVASf1B3l"
+    },
+    "amounts": {
+      "retail": 14000,
+      "doctor": 5880,
+      "wholesale": 5600
+    }
   },
   "ta1-10mg": {
     "productId": "prod_VI2RhkGon2vrUR",
-    "priceId": "price_1UHSMmHufI0szAVzEhMEIFe8",
-    "amount": 7200
+    "priceIds": {
+      "retail": "price_1UHTGQHufI0szAVz85W81RTg",
+      "doctor": "price_1UHTGQHufI0szAVzb8HsZ8lG",
+      "wholesale": "price_1UHTGQHufI0szAVzFBgDljQP"
+    },
+    "amounts": {
+      "retail": 7200,
+      "doctor": 5400,
+      "wholesale": 3600
+    }
   },
   "ghk-cu-kpv-50mg": {
     "productId": "prod_VI2RezGUi7akLm",
-    "priceId": "price_1UHSMmHufI0szAVzvB2oy8yI",
-    "amount": 12000
+    "priceIds": {
+      "retail": "price_1UHTGRHufI0szAVzI0n2OXHj",
+      "doctor": "price_1UHTGRHufI0szAVzy92hrKnO",
+      "wholesale": "price_1UHTGRHufI0szAVzKZnoDMNW"
+    },
+    "amounts": {
+      "retail": 12000,
+      "doctor": 4500,
+      "wholesale": 3000
+    }
   },
   "retatrutide-carglintide-25mg5mg": {
     "productId": "prod_VI2RSNL2DFv26k",
-    "priceId": "price_1UHSMnHufI0szAVzP4PQ5smU",
-    "amount": 16430
+    "priceIds": {
+      "retail": "price_1UHTGSHufI0szAVzAG8u9Dwi",
+      "doctor": "price_1UHTGSHufI0szAVzcjs4BUkW",
+      "wholesale": "price_1UHTGSHufI0szAVzedmns2hW"
+    },
+    "amounts": {
+      "retail": 16430,
+      "doctor": 10600,
+      "wholesale": 5300
+    }
   },
   "semax-selank-blend": {
     "productId": "prod_VI2RmQSxjbLVKI",
-    "priceId": "price_1UHSMoHufI0szAVzT9QDvuWm",
-    "amount": 10500
+    "priceIds": {
+      "retail": "price_1UHTGTHufI0szAVzFPvQW5Lx",
+      "doctor": "price_1UHTGTHufI0szAVzcDESfS3n",
+      "wholesale": "price_1UHTGUHufI0szAVzsOqwPCp6"
+    },
+    "amounts": {
+      "retail": 10500,
+      "doctor": 6300,
+      "wholesale": 4200
+    }
   },
   "cagrilintide-10mg": {
     "productId": "prod_VI2R3i2W5pjYeR",
-    "priceId": "price_1UHSMoHufI0szAVzdAoibEiY",
-    "amount": 14575
+    "priceIds": {
+      "retail": "price_1UHTGUHufI0szAVz1tfyxxTm",
+      "doctor": "price_1UHTGUHufI0szAVzb3OGCLhE",
+      "wholesale": "price_1UHTGVHufI0szAVztjNrotpH"
+    },
+    "amounts": {
+      "retail": 14575,
+      "doctor": 8250,
+      "wholesale": 5500
+    }
   },
   "aod9604-5mg": {
     "productId": "prod_VI2RDUOmgrSbLq",
-    "priceId": "price_1UHSMpHufI0szAVzhrlOm5pi",
-    "amount": 8250
+    "priceIds": {
+      "retail": "price_1UHTGVHufI0szAVzBheOnVge",
+      "doctor": "price_1UHTGWHufI0szAVzP3zMr61o",
+      "wholesale": "price_1UHTGWHufI0szAVz7U3IiAH3"
+    },
+    "amounts": {
+      "retail": 8250,
+      "doctor": 4950,
+      "wholesale": 3300
+    }
   },
   "dsip-10mg": {
     "productId": "prod_VI2RJlA3X9Z8os",
-    "priceId": "price_1UHSMqHufI0szAVzhfM7NIy1",
-    "amount": 8000
+    "priceIds": {
+      "retail": "price_1UHTGWHufI0szAVzWhoUt9LA",
+      "doctor": "price_1UHTGXHufI0szAVzkFD7ZJXE",
+      "wholesale": "price_1UHTGXHufI0szAVzZAx0CJpm"
+    },
+    "amounts": {
+      "retail": 8000,
+      "doctor": 4800,
+      "wholesale": 3200
+    }
   },
   "sermorelin-5mg": {
     "productId": "prod_VI2REP7tX6jSzf",
-    "priceId": "price_1UHSMqHufI0szAVz2crgRfdm",
-    "amount": 5400
+    "priceIds": {
+      "retail": "price_1UHTGXHufI0szAVzAgNSsAlN",
+      "doctor": "price_1UHTGYHufI0szAVzt9D5sSqQ",
+      "wholesale": "price_1UHTGYHufI0szAVzUDfXgcYZ"
+    },
+    "amounts": {
+      "retail": 5400,
+      "doctor": 3600,
+      "wholesale": 2400
+    }
   },
   "kisspeptin-10mg": {
     "productId": "prod_VI2Rs5uznnuu2u",
-    "priceId": "price_1UHSMrHufI0szAVzDrVptGS1",
-    "amount": 5499
+    "priceIds": {
+      "retail": "price_1UHTGZHufI0szAVz2pPpX7Tc",
+      "doctor": "price_1UHTGZHufI0szAVzEdvYGjKy",
+      "wholesale": "price_1UHTGZHufI0szAVzOpk85HQ8"
+    },
+    "amounts": {
+      "retail": 5499,
+      "doctor": 3150,
+      "wholesale": 2250
+    }
   },
   "ss31-10mg": {
     "productId": "prod_VI2RJ3ZAOkA5S5",
-    "priceId": "price_1UHSMsHufI0szAVzUAVz0p6r",
-    "amount": 6999
+    "priceIds": {
+      "retail": "price_1UHTGaHufI0szAVzSuGCRONt",
+      "doctor": "price_1UHTGaHufI0szAVz8Gp6NGpZ",
+      "wholesale": "price_1UHTGaHufI0szAVzSasVcHrQ"
+    },
+    "amounts": {
+      "retail": 6999,
+      "doctor": 3990,
+      "wholesale": 2850
+    }
   },
   "ss31-50mg": {
     "productId": "prod_VI2Re7SsLIT9O7",
-    "priceId": "price_1UHSMsHufI0szAVziAjGYH08",
-    "amount": 17200
+    "priceIds": {
+      "retail": "price_1UHTGbHufI0szAVz2PSY6uxq",
+      "doctor": "price_1UHTGbHufI0szAVzWbJaSrA5",
+      "wholesale": "price_1UHTGbHufI0szAVz7NTiBoUr"
+    },
+    "amounts": {
+      "retail": 17200,
+      "doctor": 10600,
+      "wholesale": 7100
+    }
   },
   "mots-ghk-kpv-blend": {
     "productId": "prod_VI2RHDHRbhXhO1",
-    "priceId": "price_1UHSMtHufI0szAVzJrqfL2LA",
-    "amount": 16800
+    "priceIds": {
+      "retail": "price_1UHTGcHufI0szAVz3PvLlND2",
+      "doctor": "price_1UHTGcHufI0szAVzGilsGuHk",
+      "wholesale": "price_1UHTGcHufI0szAVzeSMvyG92"
+    },
+    "amounts": {
+      "retail": 16800,
+      "doctor": 11340,
+      "wholesale": 8400
+    }
   }
 }

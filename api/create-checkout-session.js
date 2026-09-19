@@ -50,15 +50,20 @@ export default async function handler(req, res) {
     const shipKey = SHIP_METHODS[body.shipMethod] ? body.shipMethod : "priority";
     const ship = SHIP_METHODS[shipKey];
 
+    // Mirrors CUSTOMER_TIERS in src/main.js — never trust a tier/qty sent by
+    // the client beyond picking a valid key and enforcing its own minimum.
+    const TIER_MOQ = { retail: 1, doctor: 5, wholesale: 25 };
+    const tierKey = TIER_MOQ[body.tierKey] !== undefined ? body.tierKey : "retail";
+
     const line_items = [];
     for (const raw of items) {
       const p = byId[raw && raw.id];
       const mapping = p && stripePriceIds[p.id];
-      const qty = Math.max(1, Math.min(999, Math.floor(Number(raw && raw.qty) || 1)));
-      if (!p || !mapping) {
+      const qty = Math.max(TIER_MOQ[tierKey], Math.min(999, Math.floor(Number(raw && raw.qty) || 1)));
+      if (!p || !mapping || !mapping.priceIds || !mapping.priceIds[tierKey]) {
         return res.status(400).json({ error: `Product "${raw && raw.id}" isn't available for checkout` });
       }
-      line_items.push({ price: mapping.priceId, quantity: qty });
+      line_items.push({ price: mapping.priceIds[tierKey], quantity: qty });
     }
 
     let discounts;
@@ -105,12 +110,14 @@ export default async function handler(req, res) {
       metadata: {
         promo_code: promoPct ? promoCode : "",
         ship_method: shipKey,
+        price_tier: tierKey,
         customer_name: customer.name || "",
         customer_phone: customer.phone || "",
-        shipping_address: [customer.address, customer.city, customer.state, customer.zip, customer.country]
-          .filter(Boolean)
-          .join(", ")
-          .slice(0, 480),
+        ship_address: (customer.address || "").slice(0, 200),
+        ship_city: (customer.city || "").slice(0, 100),
+        ship_state: (customer.state || "").slice(0, 100),
+        ship_zip: (customer.zip || "").slice(0, 20),
+        ship_country: (customer.country || "").slice(0, 100),
       },
       return_url: `${origin}/#/order-confirmation?session_id={CHECKOUT_SESSION_ID}`,
     });

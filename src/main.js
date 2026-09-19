@@ -2004,6 +2004,7 @@ function wireCheckoutPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           items: cart.map((l) => ({ id: l.id, qty: l.qty })),
+          tierKey: currentTier().key,
           shipMethod: selectedShipKey(),
           promoCode: appliedPromo ? appliedPromo.code : null,
           customer: {

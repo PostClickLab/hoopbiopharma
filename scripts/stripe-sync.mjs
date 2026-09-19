@@ -1,6 +1,7 @@
-// Syncs every SKU in src/data/products.js to Stripe as a Product + one-time
-// retail Price, and writes the resulting price IDs to
-// src/data/stripePriceIds.json (test mode) or src/data/stripePriceIds.live.json
+// Syncs every SKU in src/data/products.js to Stripe as a Product + three
+// one-time Prices — retail, doctor, wholesale (tagged via Price metadata
+// since Stripe has no native tier concept) — and writes the resulting
+// price IDs to src/data/stripePriceIds.json (test mode) or src/data/stripePriceIds.live.json
 // (live mode), picked automatically from which kind of key is active —
 // committed to git so the checkout API can build line items without
 // trusting client prices and without needing Stripe access at request time.
@@ -17,7 +18,7 @@
 //
 // NOT wired into `npm run build`: Vercel's build sandbox appears to block
 // or heavily throttle outbound calls to third-party APIs (only npm
-// installs go through fast), so the ~55 sequential Stripe API calls this
+// installs go through fast), so the ~250 sequential Stripe API calls this
 // script makes hang the whole deploy for 10+ minutes there even though
 // they take seconds locally. Confirmed 2026-09-19 — don't re-add it to
 // the build script without testing a Preview deploy first.
@@ -65,8 +66,33 @@ async function fetchExistingBySku() {
   return bySku;
 }
 
+// Mirrors src/main.js's tierPrice() fallback exactly: explicit tierPricing
+// entry wins, else price * the tier's standard multiplier.
+const TIER_MULTIPLIERS = { retail: 1, doctor: 0.85, wholesale: 0.65 };
+function tierAmountCents(p, tierKey) {
+  const tp = p.tierPricing;
+  if (tp && typeof tp[tierKey] === "number") return Math.round(tp[tierKey] * 100);
+  return Math.round(p.price * TIER_MULTIPLIERS[tierKey] * 100);
+}
+
+// Finds the active Price tagged metadata.tier === tierKey among a product's
+// already-fetched prices, or creates one (retiring a stale-amount one first
+// — Prices are immutable).
+async function syncTierPrice(stripeProduct, amount, tierKey, existingPrices) {
+  const current = existingPrices.find((pr) => pr.active && pr.metadata && pr.metadata.tier === tierKey);
+  if (current && current.unit_amount === amount) return { id: current.id, changed: false };
+
+  const created = await stripe.prices.create({
+    product: stripeProduct.id,
+    currency: "usd",
+    unit_amount: amount,
+    metadata: { tier: tierKey }
+  });
+  if (current) await stripe.prices.update(current.id, { active: false });
+  return { id: created.id, changed: true };
+}
+
 async function syncProduct(p, existing) {
-  const amount = Math.round(p.price * 100);
   const images = [`${SITE_ORIGIN}${p.image}`];
   const metadata = {
     sku: p.sku,
@@ -76,54 +102,53 @@ async function syncProduct(p, existing) {
   };
 
   let stripeProduct = existing.get(p.sku);
+  let isNewProduct = false;
   if (!stripeProduct) {
     stripeProduct = await stripe.products.create({
       name: p.name,
       description: p.description ? p.description.slice(0, 500) : undefined,
       images,
-      metadata,
-      default_price_data: {
-        currency: "usd",
-        unit_amount: amount
-      }
-    });
-    console.log(`created  ${p.sku.padEnd(28)} ${p.name}`);
-    return { productId: stripeProduct.id, priceId: stripeProduct.default_price, amount };
-  }
-
-  const needsProductUpdate =
-    stripeProduct.name !== p.name ||
-    stripeProduct.metadata.catalog_id !== p.id ||
-    stripeProduct.metadata.category !== p.category;
-  if (needsProductUpdate) {
-    stripeProduct = await stripe.products.update(stripeProduct.id, {
-      name: p.name,
-      description: p.description ? p.description.slice(0, 500) : undefined,
-      images,
       metadata
     });
+    isNewProduct = true;
+  } else {
+    const needsProductUpdate =
+      stripeProduct.name !== p.name ||
+      stripeProduct.metadata.catalog_id !== p.id ||
+      stripeProduct.metadata.category !== p.category;
+    if (needsProductUpdate) {
+      stripeProduct = await stripe.products.update(stripeProduct.id, {
+        name: p.name,
+        description: p.description ? p.description.slice(0, 500) : undefined,
+        images,
+        metadata
+      });
+    }
   }
 
-  const currentPrice = stripeProduct.default_price
-    ? await stripe.prices.retrieve(stripeProduct.default_price)
-    : null;
+  const existingPrices = isNewProduct
+    ? []
+    : (await stripe.prices.list({ product: stripeProduct.id, active: true, limit: 20 })).data;
 
-  if (currentPrice && currentPrice.unit_amount === amount && currentPrice.active) {
-    console.log(`unchanged ${p.sku.padEnd(27)} ${p.name}`);
-    return { productId: stripeProduct.id, priceId: currentPrice.id, amount };
+  const amounts = {
+    retail: tierAmountCents(p, "retail"),
+    doctor: tierAmountCents(p, "doctor"),
+    wholesale: tierAmountCents(p, "wholesale")
+  };
+  const priceIds = {};
+  let anyChanged = isNewProduct;
+  for (const tierKey of ["retail", "doctor", "wholesale"]) {
+    const { id, changed } = await syncTierPrice(stripeProduct, amounts[tierKey], tierKey, existingPrices);
+    priceIds[tierKey] = id;
+    if (changed) anyChanged = true;
   }
 
-  const newPrice = await stripe.prices.create({
-    product: stripeProduct.id,
-    currency: "usd",
-    unit_amount: amount
-  });
-  await stripe.products.update(stripeProduct.id, { default_price: newPrice.id });
-  if (currentPrice && currentPrice.active) {
-    await stripe.prices.update(currentPrice.id, { active: false });
+  if (stripeProduct.default_price !== priceIds.retail) {
+    await stripe.products.update(stripeProduct.id, { default_price: priceIds.retail });
   }
-  console.log(`repriced ${p.sku.padEnd(28)} ${p.name}  ${currentPrice ? currentPrice.unit_amount / 100 : "?"} -> ${amount / 100}`);
-  return { productId: stripeProduct.id, priceId: newPrice.id, amount };
+
+  console.log(`${isNewProduct ? "created " : anyChanged ? "repriced" : "unchanged"} ${p.sku.padEnd(28)} ${p.name}`);
+  return { productId: stripeProduct.id, priceIds, amounts };
 }
 
 const existing = await fetchExistingBySku();
