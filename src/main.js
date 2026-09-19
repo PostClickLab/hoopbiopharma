@@ -47,13 +47,8 @@ function isAdmin() {
    Changes here take effect after you redeploy the site — there is
    nothing to configure anywhere else (no Supabase, no admin form).
    ========================================================= */
-const PROMO_CODES = {
-  GOLD: 0.15,
-  PLATINUM: 0.20,
-  RUBY: 0.50,
-  SAPPHIRE: 0.30,
-  SILVER: 0.10,
-};
+import { PROMO_CODES } from "./data/promoCodes.js";
+import { SHIP_METHODS } from "./data/shipping.js";
 // Rounds to the nearest cent so explicit price-sheet values (which carry
 // cents, e.g. $19.875) and multiplier fallback math both come out clean.
 function money(n) {
@@ -286,13 +281,13 @@ const FAQ_TOPICS = [
     label: "Placing an order",
     icon: ICONS.cart,
     keywords: ["order", "buy", "purchase", "checkout", "cart"],
-    answer: "Browse the Shop, add what you need to your cart, and check out from there. Your account tier sets the minimum order quantity — 1 for Retail, 5 for Doctor, 25 for Wholesaler. Checkout isn't available yet — email Info@hoopbiopharma.com and our team will help you place your order directly.",
+    answer: "Browse the Shop, add what you need to your cart, and check out from there. Your account tier sets the minimum order quantity — 1 for Retail, 5 for Doctor, 25 for Wholesaler. Checkout is handled securely through Stripe.",
     followUp: {
       prompt: "Sure — what stage are you at?",
       options: [
         { id: "browse", label: "Still browsing", answer: "Head to Shop to browse every research compound — you can filter by category. Add anything you need to your cart, then open the cart to review it whenever you're ready." },
         { id: "moq", label: "What's the minimum order?", answer: "It depends on your account tier: Retail Customers have no minimum, Doctors need at least 5 vials, and Wholesalers need at least 25 per SKU. Sign in (or create an account) and pick your tier to see it applied." },
-        { id: "checkout", label: "Ready to complete an order", answer: "Checkout isn't available on the site yet — email Info@hoopbiopharma.com with what's in your cart and our team will get it processed directly." }
+        { id: "checkout", label: "Ready to complete an order", answer: "Open your cart and hit Checkout — enter your shipping details and you'll be redirected to Stripe's secure payment page to complete your order." }
       ]
     }
   },
@@ -587,6 +582,8 @@ function navigate() {
   else if (seg === "contact") inner = viewContact();
   else if (seg === "coa") inner = viewCOA();
   else if (seg === "checkout") inner = viewCheckout();
+  else if (seg === "order-confirmation") inner = viewOrderConfirmation(r.query);
+  else if (seg === "manage-subscription") inner = viewManageSubscription();
   else if (seg === "admin" && r.path[1] === "orders") inner = viewAdminOrders();
   else if (seg === "admin" && r.path[1] === "promo-codes") inner = viewAdminPromoCodes();
   else if (seg === "admin") inner = viewAdmin();
@@ -680,7 +677,7 @@ function footerHTML() {
         </form>
       </div>
       <div class="footer-col"><h4>Navigate</h4>
-        <a href="#/">Home</a><a href="#/about">About</a><a href="#/shop">Shop</a><a href="#/wholesale">Wholesale</a><a href="#/gallery">Gallery</a><a href="#/contact">Contact</a>
+        <a href="#/">Home</a><a href="#/about">About</a><a href="#/shop">Shop</a><a href="#/wholesale">Wholesale</a><a href="#/gallery">Gallery</a><a href="#/contact">Contact</a><a href="#/manage-subscription">Manage Subscription</a>
       </div>
       <div class="footer-col"><h4>Peptide Information</h4>
         <a href="#/glossary">Glossary</a><a href="#/methodology">Our Methodology</a><a href="#/compare">Compare Peptides</a><a href="#/coa">Certificates of Analysis</a>
@@ -1810,11 +1807,12 @@ function viewCOA() {
 
 /* =========================================================
    CHECKOUT
-   No payment processor is connected yet, so the final step
-   collects the order + shipping details and hands it to the
-   customer's own email client (mailto:) addressed to the team,
-   rather than pretending to charge a card. Swap the "Send Order
-   Request" step for real payment once a processor is wired up.
+   Step 1 collects shipping details + promo code client-side for the
+   order summary. Step 2 hands the cart off to
+   /api/create-checkout-session, which re-validates every price and
+   the promo code server-side against src/data/ (never trusts the
+   client), creates a Stripe Checkout Session, and the browser is
+   redirected to Stripe's hosted payment page.
    ========================================================= */
 function checkoutLinesHTML() {
   return cart.map((l) => {
@@ -1826,6 +1824,85 @@ function checkoutLinesHTML() {
       <span>${fmt(unit * l.qty)}</span>
     </div>`;
   }).join("");
+}
+
+function viewOrderConfirmation(query) {
+  const ok = !!(query && query.session_id);
+  const isSubscription = query && query.mode === "subscription";
+  if (ok) { cart = []; persistCart(); renderCartCount(); }
+  return `
+  <div class="page-hero info-hero"><div class="wrap">
+    <h1>${ok ? "Thank you — your order is in!" : "Checkout session not found"}</h1>
+    <p class="lede">${ok
+      ? (isSubscription
+          ? "Payment was received and your subscription is active. You'll be billed monthly until you cancel — manage or cancel it anytime below."
+          : "Payment was received. A confirmation is on its way to your email, and our team will follow up with tracking once your order ships.")
+      : "We couldn't confirm that payment session. If you completed a payment, check your email for a Stripe receipt, or contact Info@hoopbiopharma.com."}</p>
+    <div style="margin-top:22px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+      <a href="#/shop" class="btn btn-primary">Continue shopping</a>
+      ${ok && isSubscription ? `<button type="button" class="btn btn-ghost" id="manageSubBtn" data-session-id="${esc(query.session_id)}">Manage subscription</button>` : ""}
+    </div>
+  </div></div>`;
+}
+
+function wireOrderConfirmationPage() {
+  const btn = document.getElementById("manageSubBtn");
+  if (!btn) return;
+  btn.addEventListener("click", async () => {
+    btn.disabled = true;
+    btn.textContent = "Opening…";
+    try {
+      const res = await fetch("/api/create-portal-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ sessionId: btn.getAttribute("data-session-id") })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error || "Could not open the subscription portal");
+      window.location.href = data.url;
+    } catch (err) {
+      showToast(err.message || "Could not open the subscription portal — please try again");
+      btn.disabled = false;
+      btn.textContent = "Manage subscription";
+    }
+  });
+}
+
+function viewManageSubscription() {
+  return `
+  <div class="page-hero info-hero"><div class="wrap">
+    <h1>Manage your subscription</h1>
+    <p class="lede">Enter the email you subscribed with to view invoices, update your card, or cancel.</p>
+    <div class="co-field-row" style="max-width:420px; margin:22px auto 0; justify-content:center;">
+      <div class="auth-field" style="flex:1;"><label for="manageSubEmail">Email</label><input type="email" id="manageSubEmail" placeholder="you@example.com" required></div>
+    </div>
+    <button type="button" class="btn btn-primary" id="manageSubGo" style="margin-top:14px;">Open subscription portal</button>
+  </div></div>`;
+}
+
+function wireManageSubscriptionPage() {
+  const btn = document.getElementById("manageSubGo");
+  if (!btn) return;
+  btn.addEventListener("click", async () => {
+    const email = (document.getElementById("manageSubEmail") || {}).value?.trim();
+    if (!email) { showToast("Enter the email you subscribed with"); return; }
+    btn.disabled = true;
+    btn.textContent = "Opening…";
+    try {
+      const res = await fetch("/api/create-portal-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error || "No subscription found for that email");
+      window.location.href = data.url;
+    } catch (err) {
+      showToast(err.message || "No subscription found for that email");
+      btn.disabled = false;
+      btn.textContent = "Open subscription portal";
+    }
+  });
 }
 
 function viewCheckout() {
@@ -1892,8 +1969,8 @@ function viewCheckout() {
         </div>
         <div class="co-panel" data-co-panel="2" hidden>
           <h3>Review &amp; payment</h3>
-          <p class="co-note">Online payment isn't connected yet. Send us your order below and our team will follow up directly to collect payment and confirm shipping.</p>
-          <div class="co-actions"><button type="button" class="btn btn-ghost" id="coStep2Back">Back</button><button type="button" class="btn btn-primary" id="coPlaceOrder">Send Order Request</button></div>
+          <p class="co-note">You'll be redirected to Stripe's secure checkout to complete payment.</p>
+          <div class="co-actions"><button type="button" class="btn btn-ghost" id="coStep2Back">Back</button><button type="button" class="btn btn-primary" id="coPlaceOrder">Pay Now</button></div>
         </div>
       </div>
       <aside class="checkout-summary">
@@ -1934,10 +2011,6 @@ function wireCheckoutPage() {
     return val("coName") && val("coPhone") && val("coAddress") && val("coCity") && val("coState") && val("coZip") && val("coCountry");
   }
 
-  const SHIP_METHODS = {
-    priority: { price: 14, label: "Priority Shipping", sub: "2–3 business days" },
-    overnight: { price: 50, label: "Overnight Shipping", sub: "Next business day" },
-  };
   function selectedShipKey() {
     const el = document.querySelector('input[name="coShipMethod"]:checked');
     return el && SHIP_METHODS[el.value] ? el.value : "priority";
@@ -2023,31 +2096,38 @@ function wireCheckoutPage() {
   if (back2) back2.addEventListener("click", () => goToStep(1));
 
   const placeOrder = document.getElementById("coPlaceOrder");
-  if (placeOrder) placeOrder.addEventListener("click", () => {
+  if (placeOrder) placeOrder.addEventListener("click", async () => {
     const acctEmail = currentUser && currentUser.email ? currentUser.email : "";
-    const lines = cart.map((l) => {
-      const p = byId[l.id];
-      if (!p) return "";
-      const unit = unitPrice(p, l.subscribed);
-      return `${p.name} (${p.sku}) x${l.qty} - ${fmt(unit * l.qty)}`;
-    }).join("\r\n");
-    const shipKey = selectedShipKey();
-    const ship = SHIP_METHODS[shipKey];
-    const discount = promoDiscount();
-    const grandTotal = cartSubtotal() + ship.price - discount;
-
-    const body =
-      `Order request from ${val("coName")}\r\n\r\n` +
-      `ITEMS:\r\n${lines}\r\n\r\nSubtotal: ${fmt(cartSubtotal())}\r\n` +
-      (appliedPromo ? `Promo code: ${appliedPromo.code} (-${fmt(discount)})\r\n` : "") +
-      `Shipping: ${ship.label} (${ship.sub}) - ${fmt(ship.price)}\r\n` +
-      `Total: ${fmt(grandTotal)}\r\n\r\n` +
-      `CONTACT:\r\nAccount email: ${acctEmail}\r\nPhone: ${val("coPhone")}\r\n\r\n` +
-      `SHIPPING ADDRESS:\r\n${val("coAddress")}\r\n${val("coCity")}, ${val("coState")} ${val("coZip")}\r\n${val("coCountry")}\r\n\r\n` +
-      `Account tier: ${customerType}`;
-
-    window.location.href = `mailto:Info@hoopbiopharma.com?subject=${encodeURIComponent("Order request — " + val("coName"))}&body=${encodeURIComponent(body)}`;
-    showToast("Your email app should now open with the order ready to send");
+    placeOrder.disabled = true;
+    placeOrder.textContent = "Redirecting to payment…";
+    try {
+      const res = await fetch("/api/create-checkout-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: cart.map((l) => ({ id: l.id, qty: l.qty, subscribed: !!l.subscribed })),
+          shipMethod: selectedShipKey(),
+          promoCode: appliedPromo ? appliedPromo.code : null,
+          customer: {
+            name: val("coName"),
+            phone: val("coPhone"),
+            email: acctEmail,
+            address: val("coAddress"),
+            city: val("coCity"),
+            state: val("coState"),
+            zip: val("coZip"),
+            country: val("coCountry")
+          }
+        })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) throw new Error(data.error || "Could not start checkout");
+      window.location.href = data.url;
+    } catch (err) {
+      showToast(err.message || "Something went wrong starting checkout — please try again");
+      placeOrder.disabled = false;
+      placeOrder.textContent = "Pay Now";
+    }
   });
 
   goToStep(1);
@@ -3611,6 +3691,8 @@ function wireDynamic() {
   }
 
   wireCheckoutPage();
+  wireOrderConfirmationPage();
+  wireManageSubscriptionPage();
   wireGalleryPage();
   wireAdminPage();
   wireAdminOrdersPage();
