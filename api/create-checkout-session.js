@@ -1,7 +1,8 @@
-// Vercel serverless function. Builds a Stripe Checkout Session for the
-// cart sent from the browser. Every price and the promo discount are
-// re-derived here from src/data/ — nothing sent by the client is trusted
-// for money math, only which SKUs/quantities/promo code were picked.
+// Vercel serverless function. Builds a Stripe embedded Checkout Session for
+// the cart sent from the browser (one-time purchase only, no subscriptions).
+// Every price and the promo discount are re-derived here from src/data/ —
+// nothing sent by the client is trusted for money math, only which
+// SKUs/quantities/promo code were picked.
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
@@ -37,7 +38,7 @@ export default async function handler(req, res) {
     res.setHeader("Allow", "POST");
     return res.status(405).json({ error: "Method not allowed" });
   }
-  if (!process.env.STRIPE_SECRET_KEY) {
+  if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_PUBLISHABLE_KEY) {
     return res.status(500).json({ error: "Checkout is not configured yet" });
   }
 
@@ -49,12 +50,6 @@ export default async function handler(req, res) {
     const shipKey = SHIP_METHODS[body.shipMethod] ? body.shipMethod : "priority";
     const ship = SHIP_METHODS[shipKey];
 
-    // Any subscribed item makes this a recurring Checkout Session — the
-    // non-subscribed items in the same cart still ride along as one-time
-    // charges on the first invoice only (Stripe supports mixing one-time
-    // and recurring prices in a single subscription-mode session).
-    const mode = items.some((it) => it && it.subscribed) ? "subscription" : "payment";
-
     const line_items = [];
     for (const raw of items) {
       const p = byId[raw && raw.id];
@@ -63,20 +58,7 @@ export default async function handler(req, res) {
       if (!p || !mapping) {
         return res.status(400).json({ error: `Product "${raw && raw.id}" isn't available for checkout` });
       }
-      if (raw.subscribed) {
-        if (!mapping.recurringPriceId) {
-          return res.status(400).json({ error: `"${p.name}" isn't available for subscription yet` });
-        }
-        line_items.push({ price: mapping.recurringPriceId, quantity: qty });
-      } else {
-        line_items.push({ price: mapping.priceId, quantity: qty });
-      }
-    }
-
-    if (mode === "subscription") {
-      const shipPriceId = stripePriceIds.__shipping && stripePriceIds.__shipping[shipKey];
-      if (!shipPriceId) return res.status(500).json({ error: "Recurring shipping isn't configured yet" });
-      line_items.push({ price: shipPriceId, quantity: 1 });
+      line_items.push({ price: mapping.priceId, quantity: qty });
     }
 
     let discounts;
@@ -90,27 +72,24 @@ export default async function handler(req, res) {
 
     const customer = body.customer || {};
     const origin = req.headers.origin || `https://${req.headers.host}`;
-    const metadata = {
-      promo_code: promoPct ? promoCode : "",
-      ship_method: shipKey,
-      customer_name: customer.name || "",
-      customer_phone: customer.phone || "",
-      shipping_address: [customer.address, customer.city, customer.state, customer.zip, customer.country]
-        .filter(Boolean)
-        .join(", ")
-        .slice(0, 480),
-    };
 
     const session = await stripe.checkout.sessions.create({
-      mode,
+      ui_mode: "embedded_page",
+      mode: "payment",
       line_items,
       discounts,
       customer_email: customer.email || undefined,
       phone_number_collection: { enabled: true },
-      // Subscription mode bills shipping every renewal as its own recurring
-      // line item (pushed onto line_items above) instead of a one-time
-      // shipping_options rate, which only applies to the first invoice.
-      shipping_options: mode === "payment" ? [
+      // Matches the site's own checkout panel so the embedded iframe reads
+      // as part of the page instead of a boxed-in third-party widget — an
+      // iframe can't be styled with our own CSS (same-origin policy), this
+      // is the only supported way to blend it in.
+      branding_settings: {
+        background_color: "#eff1f6",
+        button_color: "#102447",
+        border_style: "rounded",
+      },
+      shipping_options: [
         {
           shipping_rate_data: {
             type: "fixed_amount",
@@ -122,14 +101,21 @@ export default async function handler(req, res) {
             },
           },
         },
-      ] : undefined,
-      metadata,
-      subscription_data: mode === "subscription" ? { metadata } : undefined,
-      success_url: `${origin}/#/order-confirmation?session_id={CHECKOUT_SESSION_ID}&mode=${mode}`,
-      cancel_url: `${origin}/#/checkout`,
+      ],
+      metadata: {
+        promo_code: promoPct ? promoCode : "",
+        ship_method: shipKey,
+        customer_name: customer.name || "",
+        customer_phone: customer.phone || "",
+        shipping_address: [customer.address, customer.city, customer.state, customer.zip, customer.country]
+          .filter(Boolean)
+          .join(", ")
+          .slice(0, 480),
+      },
+      return_url: `${origin}/#/order-confirmation?session_id={CHECKOUT_SESSION_ID}`,
     });
 
-    return res.status(200).json({ url: session.url });
+    return res.status(200).json({ clientSecret: session.client_secret, publishableKey: process.env.STRIPE_PUBLISHABLE_KEY });
   } catch (err) {
     console.error("create-checkout-session error:", err);
     return res.status(500).json({ error: "Could not start checkout — please try again" });
