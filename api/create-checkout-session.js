@@ -52,7 +52,7 @@ export default async function handler(req, res) {
 
     // Mirrors CUSTOMER_TIERS in src/main.js — never trust a tier/qty sent by
     // the client beyond picking a valid key and enforcing its own minimum.
-    const TIER_MOQ = { retail: 1, doctor: 5, wholesale: 25 };
+    const TIER_MOQ = { retail: 1, doctor: 5, wholesale: 1 };
     const tierKey = TIER_MOQ[body.tierKey] !== undefined ? body.tierKey : "retail";
 
     const line_items = [];
