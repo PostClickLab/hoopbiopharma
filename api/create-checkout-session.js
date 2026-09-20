@@ -78,6 +78,24 @@ export default async function handler(req, res) {
     const customer = body.customer || {};
     const origin = req.headers.origin || `https://${req.headers.host}`;
 
+    // Set on both the Session AND the underlying PaymentIntent — Checkout
+    // Session metadata does NOT copy to the PaymentIntent automatically, and
+    // the Dashboard's "Payments" list/detail pages show the PaymentIntent,
+    // not the Session, so without payment_intent_data below this looked
+    // empty to anyone checking a payment there (found 2026-09-20).
+    const orderMetadata = {
+      promo_code: promoPct ? promoCode : "",
+      ship_method: shipKey,
+      price_tier: tierKey,
+      customer_name: customer.name || "",
+      customer_phone: customer.phone || "",
+      ship_address: (customer.address || "").slice(0, 200),
+      ship_city: (customer.city || "").slice(0, 100),
+      ship_state: (customer.state || "").slice(0, 100),
+      ship_zip: (customer.zip || "").slice(0, 20),
+      ship_country: (customer.country || "").slice(0, 100),
+    };
+
     const session = await stripe.checkout.sessions.create({
       ui_mode: "embedded_page",
       mode: "payment",
@@ -107,18 +125,8 @@ export default async function handler(req, res) {
           },
         },
       ],
-      metadata: {
-        promo_code: promoPct ? promoCode : "",
-        ship_method: shipKey,
-        price_tier: tierKey,
-        customer_name: customer.name || "",
-        customer_phone: customer.phone || "",
-        ship_address: (customer.address || "").slice(0, 200),
-        ship_city: (customer.city || "").slice(0, 100),
-        ship_state: (customer.state || "").slice(0, 100),
-        ship_zip: (customer.zip || "").slice(0, 20),
-        ship_country: (customer.country || "").slice(0, 100),
-      },
+      metadata: orderMetadata,
+      payment_intent_data: { metadata: orderMetadata },
       return_url: `${origin}/#/order-confirmation?session_id={CHECKOUT_SESSION_ID}`,
     });
 
