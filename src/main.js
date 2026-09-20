@@ -16,7 +16,7 @@ let familySelection = {};
 const CUSTOMER_TIERS = {
   "Retail Customer": { multiplier: 1, moq: 1, key: "retail", badge: null },
   "Doctor": { multiplier: 0.85, moq: 5, key: "doctor", badge: "Doctor pricing" },
-  "Wholesaler": { multiplier: 0.65, moq: 1, key: "wholesale", badge: "Wholesale pricing" }
+  "Wholesaler": { multiplier: 0.65, moq: 25, key: "wholesale", badge: "Wholesale pricing" }
 };
 let customerType = "Retail Customer";
 // The signed-in Supabase user (auth.users row), or null when signed out.
