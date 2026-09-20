@@ -81,6 +81,16 @@ try {
   if (saved) cart = JSON.parse(saved);
 } catch (e) {}
 
+// Hoisted to module scope (not local to wireCheckoutPage) so a leftover
+// mounted instance is still reachable and gets destroy()'d even after the
+// shopper navigates away from #/checkout and back in a later render pass
+// (e.g. "Edit cart" to add another item, then return to checkout) — a
+// local variable there would be discarded on navigation while Stripe.js's
+// own embedded-checkout instance stayed alive, causing "You cannot have
+// multiple Embedded Checkout objects" on the next mount.
+let embeddedCheckout = null;
+let stripeClient = null;
+
 function persistCart() {
   try { localStorage.setItem("hbp_cart", JSON.stringify(cart)); } catch (e) {}
 }
@@ -1991,8 +2001,8 @@ function wireCheckoutPage() {
   // shopper reaches step 2. Recreated (destroy + fetch a fresh session)
   // every time step 2 is (re-)entered, so a promo code or shipping method
   // changed after going Back is reflected in the mounted total.
-  let embeddedCheckout = null;
-  let stripeClient = null;
+  // embeddedCheckout/stripeClient are module-scoped (declared near `cart`
+  // above) rather than local here, see the comment there.
 
   async function mountEmbeddedCheckout() {
     const mountEl = document.getElementById("stripeCheckoutMount");
